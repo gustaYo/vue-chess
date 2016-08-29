@@ -28,7 +28,7 @@ Todo
 ------
 
 - Load balancing work with redis.
-- IE8.
+- I18n.
 - Load pgn file.
 
 ## Run App
