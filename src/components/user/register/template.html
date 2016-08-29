@@ -1,0 +1,59 @@
+<div class="row">
+<h3 class="flat-text-header">Registar usuario</h3>
+{{error| json}}  
+    <form class="col s12" v-on:submit.prevent="registerUser()">
+        <div class="row demo">
+            <md-input name="usuario" :value.sync="user.username" placeholder="Usuario" :success-msg="successMsg" :error-msg="errorMsg"
+                       class="col s6">
+                Usuario
+            </md-input>
+            <md-input name="last_name" :value.sync="user.email" :success-msg="successMsg" :error-msg="errorMsg"
+                      class="col s6">
+                Email
+            </md-input>
+        </div>
+                <div class="row demo">
+            <md-input name="first_name" :value.sync="user.name" placeholder="Placeholder" :success-msg="successMsg" :error-msg="errorMsg"
+                       class="col s4">
+                Nombre
+            </md-input>
+            <md-input name="last_name" :value.sync="user.firstName" :success-msg="successMsg" :error-msg="errorMsg"
+                      class="col s4">
+                Primer apellido
+            </md-input>
+             <md-input name="last_name" :value.sync="user.lastName" :success-msg="successMsg" :error-msg="errorMsg"
+                      class="col s4">
+                Segundo apellido
+            </md-input>
+        </div>
+        <div class="row demo">
+        <p class="flat-text-header">Sexo</p> 
+            <md-radio-group group="firstNameValid" class="col s6">
+                <md-radio :value.sync="user.sexo" radio-value="null" class="with-gap">
+                    Femenino
+                </md-radio>
+                <md-radio :value.sync="user.sexo" radio-value="true" class="with-gap">
+                    Masculino
+                </md-radio>
+            </md-radio-group>
+
+
+            <md-input :value.sync="user.age" type="number" :number="true" class="col s6"
+ :error-msg="'si tambien'" :valid="user.age < 100 && user.age > 3"
+            >
+                Age
+            </md-input>
+        </div>
+        <div class="row demo">
+            <md-input type="password" class="col s6" :value.sync="user.password" :success-msg="formValidMsg.successMsgPasswrd" :error-msg="formValidMsg.errorMsgPasswrd" :valid="validPassword()">
+                Password
+            </md-input>
+            <md-input type="password" class="col s6" :value.sync="user.repeatpassword" :success-msg="'Coinciden'" :error-msg="'No coinciden las contraseñas'" :valid="repitPasswordValidate()">
+                Repit password
+            </md-input>
+        </div>
+
+<md-button class="waves-effect waves-light col s6" @click="registerUser()"><md-icon left>cloud</md-icon>Insertar</md-button>
+<md-button class="waves-effect waves-light col s6"><md-icon right>cloud</md-icon>Cancelar</md-button>
+    </form>
+</div>

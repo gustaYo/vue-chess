@@ -1,0 +1,44 @@
+html, body {
+  margin:0;
+  min-height: 100vh;
+  height: 100vh;
+  
+  
+}
+body {
+  margin:0;
+    display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100vh;
+
+  
+
+}
+header {
+  order: 1;
+    flex-shrink: 0;
+    flex-basis: 50px;
+    background:red;
+}
+article {
+  order: 2;
+  overflow-y: scroll;
+    background:green;
+    flex-grow: 1;
+}
+footer {
+  order: 3;
+    
+    flex-basis: 50px;
+    min-height:50px;
+    background:blue;
+
+
+
+}
+
+#ground1{
+ width:400px;
+ height:400px;
+}

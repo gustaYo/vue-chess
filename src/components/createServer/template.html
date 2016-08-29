@@ -1,0 +1,26 @@
+ <div class="row">
+  <h4 class="flat-text-header hello">Creando servidor</h4>
+  <div class="col s12">
+    <md-input name="first_name" :value.sync="firstName" placeholder="Placeholder" success-msg="Success" error-msg="Error"
+    :valid="bool(firstNameValid)">
+    Nombre de servidor
+    <template slot="icon-name">account_circle</template>
+  </md-input>
+<md-input :value.sync="age" :number="true" type="number">
+Cantidad de usuarios permitidos
+ <template slot="icon-name">account_circle</template>
+</md-input>
+
+<md-textarea :value.sync="value" name="text" :debounce="500">
+    Descripcion:
+     <template slot="icon-name">account_circle</template>
+</md-textarea>
+
+
+<md-switch :value.sync="activado">
+    <span slot="on">Encender</span>
+    <span slot="off">Apagar</span>
+</md-switch>
+
+</div>
+</div>

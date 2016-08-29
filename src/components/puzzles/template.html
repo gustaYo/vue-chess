@@ -1,0 +1,93 @@
+<div class="col s12">
+	
+	 <div class="col s12 m12 l3">
+
+		<md-collection>
+		    <md-collection-item 
+		    v-for="puzzleT in puzzlesType"
+		    @click="selectPuzzleType(puzzleT)"
+		    :active="puzzleT.type == puzzleType.type">
+		        {{ puzzleT.type }}<md-badge>34</md-badge>
+		    </md-collection-item>	    
+		</md-collection>
+
+		<md-card class="blue-grey darken-1" content-class="white-text">
+		    <span slot="title">
+		        Crea un Puzzle
+		    </span>
+		    <p>
+		        Adiciona y comparte un puzzle retador
+		    </p>
+		    <div slot="actions">
+		        <a @click="addPuzzle('add')">Crear</a>
+		        <a @click="editPuzzle()" v-if="user.username === item.createby">Editar</a>
+		        <a @click="delPuzzle()" v-if="user.username === item.createby">Eliminar</a>
+		    </div>
+		</md-card>
+
+	 </div>
+
+	 <div class="col s12 m12 l9">
+	 	
+	 <div class="col s12 m12 l2">
+	 <div style="text-align: center">
+	 	<label>Listado</label>
+	 </div>
+	 <div style="height: 80vh;overflow: auto">
+	 	
+		<md-collection>
+		    <md-collection-item v-for="puzzle in puzzles" :active="item._id == puzzle._id" @click="selectItm(puzzle)">
+		        Puzzle {{ $index }}<md-badge>{{puzzle.results}}</md-badge>
+		    </md-collection-item>	    
+		</md-collection>
+
+	 </div>
+
+	 </div>
+
+	 <div class="col s12 m12 l10">
+	 <div style="text-align: left">
+	 	<label>{{ puzzleType.description }}</label>
+	 </div>
+	 	
+	 	<puzzle-chess :puzzle="item"></puzzle-chess>
+
+	 </div>
+
+	 </div>	 
+
+<md-modal id="modalCreatePuzzle">
+<h4 style="text-align: center">Adicionando puzzle {{ puzzleType.type }}</h4>
+
+<div class="col s12 m12 l12">
+
+<div class="col s12 m12 l6">
+	<div id='puzzleGenerateFenInit' class="merida light-wood-3d chessground small"></div>
+</div>
+
+<div class="col s12 m12 l6" v-if="puzzleType.position">
+	<div id='puzzleGenerateFenFinish' class="merida light-wood-3d chessground small"></div>
+</div>
+
+    <md-input name="text" :value.sync="fenInit" class="col s9 m9 l6">
+		Posición inicial      
+	</md-input>
+
+    <md-input name="text" :value.sync="fenFinish" class="col s9 m9 l6" v-if="puzzleType.position">
+		Posición final     
+	</md-input>
+</div>
+<span slot="footer">
+  <md-button class="waves-effect waves-green btn-flat"
+  @click="createPuzzle(true)">
+  {{[mode === 'add'?'Crear':'Editar']}}
+</md-button>
+<md-button class="waves-effect waves-green btn-flat"
+@click="createPuzzle(false)">
+Cancelar
+</md-button>
+</span>
+</md-modal>	 
+
+</div>
+

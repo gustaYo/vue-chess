@@ -1,0 +1,170 @@
+
+<div class="col s12">
+
+ <div class="col s12 m12 l3">
+  <md-collapsible>
+  <md-collapsible-item name="one" expanded>
+  <div slot="header">
+    <md-icon>filter_drama</md-icon>Conectados
+  </div>
+  <div slot="body" style="max-height: 70vh;overflow: auto">
+    <md-collection>
+    <md-collection-item v-for="online in users" @click="openTab(online)" v-show="online.id !== user._id">
+    {{ online.nickname }}
+  </md-collection-item>
+</md-collection>
+</div>
+</md-collapsible-item>
+<md-collapsible-item name="two">
+<div slot="header">
+  <md-icon>place</md-icon>Jugando
+</div>
+<div slot="body">
+  <md-collection>
+  <md-collection-item v-for="game in boards" @click="showBoard(game)">
+
+  <span class="title"> {{ game.u1 }} <img style="height: 25px;" src="../../../static/images/pieces/merida/wQ.svg" alt=""> VS <img style="height: 25px;" src="../../../static/images/pieces/merida/bQ.svg" alt=""> {{ game.u2 }}</span>
+
+</md-collection-item>
+</md-collection>
+</div>
+</md-collapsible-item>   
+</md-collapsible>
+
+</div>
+
+<div class="col s12 m12 l9">
+
+
+ <md-tabs :active.sync="active" class="z-depth-1" v-show="tabs.length > 0 && active !== 'boardVisor'">
+
+ <md-tab :name.sync="tabconver.idTab" v-link="{path: '/home'}" class="s4" v-for="tabconver in tabs">
+ <a>{{ tabconver.name }} <label class="close-tab" @click="closeTab(tabconver.idTab)">&#10007;</label></a>
+</md-tab>
+
+<div slot="contents">
+  <div v-for="tabconver in tabs" id="content_{{ tabconver.idTab }}" v-show="active == tabconver.idTab" class="tabConvert" v-on:scroll="userScroll">
+
+<body-men :mens="tabconver.men" :dir-server="dirServer"></body-men>
+
+</div>
+<div class="col s12 m12 l12">
+  <form v-on:submit.prevent="sendMensaje()">
+    <div class="col s12 m12 l12">        
+
+      <md-linear-preloader :value="fileProgress" v-if="!allFilesUploaded"></md-linear-preloader>
+      <label style="position: relative;float: right;top: -15px" v-if="!allFilesUploaded">{{ fileProgress }}</label>
+
+      <upload-files
+      :value.sync="filesUpload"
+      name="files"
+      multiple
+      :action="dirActionUpload"
+      maxsize="20MB"
+      pathpermit="|jpeg|mp4|zip|"
+      >
+
+      <a class="btn waves-effect waves-light col s3 m3 l1">
+       Upload
+     </a>
+
+   </upload-files>
+   <a class="btn waves-effect waves-light col s3 m3 l1" @click="inviteChessGame()">
+    Invitar
+  </a>
+  <a class="btn waves-effect waves-light col s3 m3 l1" @click="activeWebcam()">
+    WebCam
+  </a>
+</div>
+<md-input name="text" :value.sync="chattext" class="col s9 m9 l10">
+Texto      
+</md-input>
+<md-btn class="btn waves-effect waves-light col s3 m3 l2 send-btn" type="submit">
+Enviar
+</md-btn>
+</form>
+</div>
+
+</div>
+</md-tabs>
+
+<board-visor v-show="active === 'boardVisor'" :board="board"></board-visor>
+
+<md-modal id="inviteGame">
+<h4 style="text-align: center">Crear partida</h4>
+
+<div class="col s12 m12 l12">
+ <div class="col s6 m4 l4">
+  <p class="flat-text-header hello">Color</p>
+  <md-radio-group group="color" class="col s6">
+  <md-radio :value.sync="newboard.color" radio-value="w" class="with-gap">
+  Blancas
+</md-radio>
+<md-radio :value.sync="newboard.color" radio-value="b" class="with-gap">
+Negras
+</md-radio>
+</md-radio-group>
+</div>
+
+<div class="col s6 m4 l4">
+  <p class="flat-text-header hello">Tiempo minutos</p>
+  <md-radio-group group="time" class="col s6">
+  <md-radio :value.sync="newboard.time" radio-value="1" class="with-gap">
+  1
+</md-radio>
+<md-radio :value.sync="newboard.time" radio-value="3" class="with-gap">
+3
+</md-radio>
+<md-radio :value.sync="newboard.time" radio-value="5" class="with-gap">
+5
+</md-radio>
+</md-radio-group>
+</div>
+
+<div class="col s6 m4 l4">
+  <p class="flat-text-header hello">Tipo de partida</p>
+
+  <md-switch :value.sync="newboard.public" disabled>
+  <span slot="on">Publica</span>
+  <span slot="off">Privada</span>
+</md-switch>
+</div>
+</div>
+<span slot="footer">
+  <md-button href="#" class="waves-effect waves-green btn-flat"
+  @click="createdInviteGame(true)">
+  Crear
+</md-button>
+<md-button href="#" class="waves-effect waves-green btn-flat"
+@click="createdInviteGame(false)">
+Cancelar
+</md-button>
+</span>
+</md-modal>
+
+</div>
+<style scoped>
+
+.menText p{
+    text-align: justify;
+    -moz-hyphens: auto;
+    word-wrap: break-word;
+}
+
+  .send-btn{
+    height: 60px;
+  }
+  .close-tab {
+    font-size: x-large;
+  }
+  .close-tab:hover{
+    color: #9E1D1D;
+  }
+  .tabConvert{
+    height: 65vh;
+    overflow: auto;
+  }
+</style>
+
+
+</div>
