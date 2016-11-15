@@ -1,4 +1,5 @@
 <script>
+import Vue from 'vue'
 import UserService from '../../services/user'
 import Store from '../../services/lstorage'
 import BoardVisor from './boardVisor'
@@ -88,7 +89,7 @@ export default {
     },
     onAllFilesUploaded (files) {
       // console.log('onAllFilesUploaded', files)
-      this.toast('<span>Archivos subidos correctamente</span>', 2000)
+      this.toast('<span>' + Vue.t('home.uploadMens.success') + '</span>', 2000)
       // everything is done!
       this.allFilesUploaded = true
     }
@@ -207,7 +208,8 @@ export default {
       }.bind(this), 200)
     },
     sendMensaje (type = 'text') {
-      if (this.chattext === '') {
+      if (this.chattext.trim() === '') {
+        this.chattext = ''
         return
       }
       var post = this.foundTab(this.active)
@@ -333,7 +335,7 @@ export default {
             data: invite
           }
         }
-        this.toast('<span>Invitación de juego enviada</span>', 2000)
+        this.toast('<span>' + Vue.t('home.inviteSend') + '</span>', 2000)
         this.$socket.emit('event', data, function (...callbacks) {
           // console.log(callbacks)
         })
@@ -350,3 +352,24 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .menText p{
+    text-align: justify;
+    -moz-hyphens: auto;
+    word-wrap: break-word;
+  }
+
+  .send-btn{
+    height: 60px;
+  }
+  .close-tab {
+    font-size: x-large;
+  }
+  .close-tab:hover{
+    color: #9E1D1D;
+  }
+  .tabConvert{
+    height: 65vh;
+    overflow: auto;
+  }
+</style>

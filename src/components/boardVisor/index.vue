@@ -87,4 +87,7 @@ export default {
 h1 {
   color: #42b983;
 }
+tr:hover{
+  background-color: #B9D4CB;
+}
 </style>

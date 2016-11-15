@@ -1,3 +1,4 @@
+
 var config = {
     db: {
         options: {
@@ -7,7 +8,7 @@ var config = {
 //  user: 'admin',
 //  pass: '123456'
         },
-        uri: 'mongodb://127.0.0.1/vuexchess',
+        uri: process.env.MONGO_URL || 'mongodb://127.0.0.1/vuexchess'
     },
     porthttp: process.env.PORT || 3311,
     multicore: false,

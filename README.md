@@ -28,7 +28,6 @@ Todo
 ------
 
 - Load balancing work with redis.
-- I18n.
 - Load pgn file.
 
 ## Run App

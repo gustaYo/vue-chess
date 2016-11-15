@@ -78,17 +78,17 @@ app.use(express.static(__dirname + '/../public', {maxAge: oneYear}));
 app.set('ipaddr', address);
 app.set('port', config.porthttp);
 require('../routers')(app, express, io);
-let server = https.createServer(options,app);
+var server = https.createServer(options,app);
 
 if (config.multicore){
 // use node socket clouster
 var redis = require('socket.io-redis');
 io.adapter(redis({ host: 'localhost', port: 6379 }));	
 }
-
 io.attach(server);
+
 server.on('listening', function(){
-	console.log('Server running at https://' + app.get('ipaddr') + ':' + app.get('port'));
+	console.log('Server running at '+ (config.https?'https':'http')+'://' + app.get('ipaddr') + ':' + app.get('port'));
 });
 cb(server);
 };

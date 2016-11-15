@@ -1,19 +1,17 @@
 <template>
-
   <div class="col popover {{ [men.send === user.username  ? 'left' : 'right'] }}" v-for="men in mens">
-        <div class="arrow"></div>
-        <h3 class="popover-title">{{ men.send }} <span style="float:right">Time</span></h3>
-        <div class="popover-content menText">
-          <p v-if="men.type==='text'"> {{ men.body }}</p>
-			<div style="float:left" v-if="men.type==='file'">      
-			    <img v-if="isImage(men.body)" class="col s6 m6 l6" v-bind:src="imageUrl(men.body.name)" alt="">
-			    <md-button v-else class="waves-effect waves-light" v-bind:href="imageUrl(men.body.name)">
-			    <md-icon left>cloud</md-icon>{{men.body.name}}
-			    </md-button>
-    		</div>
-        </div>
+    <div class="arrow"></div>
+    <h3 class="popover-title">{{ men.send }} <span style="float:right">{{ men.created | moment 'MMMM Do YYYY, h:mm:ss a'}}</span></h3>
+    <div class="popover-content menText">
+      <p v-if="men.type==='text'"> {{ men.body }}</p>
+      <div style="float:left" v-if="men.type==='file'">      
+       <img v-if="isImage(men.body)" class="col s6 m6 l6" v-bind:src="imageUrl(men.body.name)" alt="">
+       <md-button v-else class="waves-effect waves-light" v-bind:href="imageUrl(men.body.name)">
+       <md-icon left>cloud</md-icon>{{men.body.name}}
+     </md-button>
+   </div>
+ </div>
 </div>
-
 </template>
 
 <script>

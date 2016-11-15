@@ -54,31 +54,36 @@ var getUserConnect = function(io,username) {
     }
     for (var i in io.sockets.sockets) {
         if (io.sockets.sockets[i].nickname.nickname)
-        if (io.sockets.sockets[i].nickname.nickname === username) {
-            return io.sockets.sockets[i].nickname
+            if (io.sockets.sockets[i].nickname.nickname === username) {
+                return io.sockets.sockets[i].nickname
+            }
         }
+        return false
     }
-    return false
-}
 
-var disconnectUser = function (io,user) {
-    if (!config.multicore){
-        if (nicknames[user.nickname])
-        delete nicknames[user.nickname]
-        return
-    }
+    var disconnectUser = function (io,user) {
+        if (!config.multicore){
+            try {
+                if (nicknames[user.nickname])
+                    delete nicknames[user.nickname]
+                return
+            } catch (e) {
+                // some
+            }
+
+        }
     // multicore logic
 }
 
 function findClientsSocketByRoomId(roomId) {
-var res = []
-, room = io.sockets.adapter.rooms[roomId];
-if (room) {
-    for (var id in room) {
-    res.push(io.sockets.adapter.nsp.connected[id]);
+    var res = []
+    , room = io.sockets.adapter.rooms[roomId];
+    if (room) {
+        for (var id in room) {
+            res.push(io.sockets.adapter.nsp.connected[id]);
+        }
     }
-}
-return res;
+    return res;
 }
 
 exports.IsValidSocketToken = (socket) => {
@@ -100,7 +105,7 @@ var validMensaje=function(string){
     return string;
 }
 
-exports.mensaje = (io,socket,dta,next) => {   
+exports.mensaje = (io,socket,dta,next) => {
    if (dta.men.type === 'text') {
     dta.men.body = validMensaje(dta.men.body);
 }
@@ -144,9 +149,9 @@ var loadConver = (user1, user2, range, next) => {
 
 exports.loadUserConvert = (io,socket,dta,next) => {
     if (socket.nickname)
-    loadConver(socket.nickname.nickname, dta.user, dta.range, function (log) {
-        next(null,log)
-    })
+        loadConver(socket.nickname.nickname, dta.user, dta.range, function (log) {
+            next(null,log)
+        })
 }    
 
 var userLog = (user, next) => {
@@ -218,17 +223,21 @@ exports.uploadFile = (req, res) => {
   form.uploadDir = path.join(__dirname, '../public/uploads');
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
+  var curTime = new Date();
+  var curTime = curTime.getTime();
+  fileName = "filename";
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
-});
+    var fileName = curTime + '__' +file.name    
+    fs.rename(file.path, path.join(form.uploadDir, fileName), function(err) {
+        if (!err) {
+            return res.send(fileName);
+        }
+    });     
+  });
   // log any errors that occur
   form.on('error', function(err) {
     console.log('An error has occured: \n' + err);
-});
-  // once all the files have been uploaded, send a response to the client
-  form.on('end', function() {
-    res.end('success');
-});
+  });
   // parse the incoming request containing the form data
-  form.parse(req);    
+  form.parse(req);  
 }

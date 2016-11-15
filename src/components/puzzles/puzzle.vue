@@ -1,41 +1,35 @@
 
-<template>
-	
-<div class="col s12">
-	 <div class="col s12 m12 l9" style="padding: 0 0 ">
-	 		  <div id='puzzleBoard' style="width: 100%;height: 500px;" class="wood chessground vuejs cburnett"></div>
-	 </div>
-	 <div class="col s12 m12 l3">
-
-  
-      <h5 class="flat-text-header hello">Creado por</h5>
-    {{puzzle.createby}}
-    <h5 class="flat-text-header hello">Fecha</h5>
-    {{puzzle.created}}
-    <h5 class="flat-text-header hello">Juega</h5>    
-    {{turn}}
-    <h6 class="flat-text-header hello">Movimientos restantes</h6>    
-    {{numMoves}}
-
-
-<div class="col s12 m12 l12">
-      <div v-if="mate && numMoves===0">
-      <span>
-      <h3>ganas</h3>      
-      </span>
+<template>	
+  <div class="col s12">
+    <div class="col s12 m12 l9" style="padding: 0 0 ">
+      <div id='puzzleBoard' style="width: 100%;height: 500px;" class="wood chessground vuejs cburnett"></div>
     </div>
-    <div v-if="!mate && numMoves===0">
-      <h3>pierdes</h3>
-      <a class="btn waves-effect waves-light col s12 m12 l12"
-      @click="reintent()"
-      >
-          Reintentar
-      </a>
+    <div class="col s12 m12 l3">  
+      <h5 class="flat-text-header hello">{{ $t("puzzles.createBy") }}  </h5>
+      {{puzzle.createby}}
+      <h5 class="flat-text-header hello">{{ $t("puzzles.date") }}</h5>
+      {{puzzle.created | moment 'MMMM Do YYYY, h:mm:ss a'}}
+      <h5 class="flat-text-header hello">{{ $t("puzzles.played") }}</h5>
+      {{ $t("puzzles.color."+turn) }}
+      <h6 class="flat-text-header hello">{{ $t("puzzles.movs") }}</h6>    
+      {{numMoves}}
+      <div class="col s12 m12 l12">
+        <div v-if="mate && numMoves===0">
+          <span>
+            <h3>{{ $t("puzzles.wins") }}</h3>      
+          </span>
+        </div>
+        <div v-if="!mate && numMoves===0">
+          <h3>{{ $t("puzzles.lost") }}</h3>
+          <a class="btn waves-effect waves-light col s12 m12 l12"
+          @click="reintent()"
+          >
+          {{ $t("puzzles.reintent") }}
+        </a>
+      </div>
     </div>
+  </div>
 </div>
-	 </div>
-</div>
-
 </template>
 
 

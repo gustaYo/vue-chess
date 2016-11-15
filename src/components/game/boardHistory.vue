@@ -2,15 +2,12 @@
 
     <ul class="history-board" style="height: 50vh;overflow: auto">
     <li v-for="move in history" @click="moveToHistory($index)" class="col s6 m6 l6" style="padding: 0 0 !important" v-bind:class="[select === $index ? 'item-select' : '']">
-
       <span>
       <label v-if="$index % 2 ===0">{{ ($index/2)+1 }}.</label>
         <img alt="" v-bind:src="urlPiece(move)" height="25" width="25"><label>{{ move.from }}>{{ move.to }} {{ move.san }}</label>
-      </span>
-            
+      </span>            
     </li>     
     </ul>
-
     <div class="col s12 m12 l12" v-show="!active">
          <md-button class="waves-effect waves-light col s2 m2 l2" @click="moveToHistory(select - 1)">
             <<

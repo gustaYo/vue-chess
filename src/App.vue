@@ -1,20 +1,26 @@
 <template>
     <div>
+    <md-dropdown-list>
+    <md-dropdown-item v-for="len in lenguajes" closing @click="changeLenguaje(len.value)">{{ len.label }}</md-dropdown-item>
+</md-dropdown-list>
     <md-navbar title="VueChess" hamburger mode="hide-on-med-and-down" left nav-class="blue darken-4">
-    <md-nav-item v-link="{name: 'home',activeClass: 'active'}">Home</md-nav-item>
+    <md-nav-item v-link="{name: 'home',activeClass: 'active'}">{{ $t("home.title") }}</md-nav-item>
     <!--
     <md-nav-item v-link="{name: 'multiplayer',activeClass: 'active'}">Multijugador</md-nav-item>
     <md-nav-item v-link="{name: 'createServer',activeClass: 'active'}">Crear servidor</md-nav-item>
 -->
-    <md-nav-item v-link="{name: 'game',activeClass: 'active'}">Game</md-nav-item>
-    <md-nav-item @click="showInvitesGame()" v-if="user.user && $route.name!='game'">Invitaciones</md-nav-item>
-    <md-nav-item v-link="{name: 'visor',activeClass: 'active', params: board.boardParms}" v-if="user.user">Visor</md-nav-item>
-    <md-nav-item v-link="{name: 'puzzle',activeClass: 'active'}" v-if="user.user">Puzzles</md-nav-item>    
-    <md-nav-item @click="openModal()">About</md-nav-item>
-    <md-nav-item v-link="{name: 'user',activeClass: 'active'}" v-if="user.user">User</md-nav-item>
-    <md-nav-item v-link="{name: 'loguin',activeClass: 'active'}" v-if="!user.user">Entrar</md-nav-item>
-    <md-nav-item @click="logout()" v-if="user.user">Salir</md-nav-item>
+    <md-nav-item v-link="{name: 'game',activeClass: 'active'}">{{ $t("game.title") }}</md-nav-item>
+    <md-nav-item @click="showInvitesGame()" v-if="user.user && $route.name!='game'">{{ $t("invites.title") }}</md-nav-item>
+    <md-nav-item v-link="{name: 'visor',activeClass: 'active', params: board.boardParms}" v-if="user.user">{{ $t("visor.title") }}</md-nav-item>
+    <md-nav-item v-link="{name: 'puzzle',activeClass: 'active'}" v-if="user.user">{{ $t("puzzles.title") }}</md-nav-item>    
+    <md-nav-item @click="openModal()">{{ $t("about.title") }}</md-nav-item>
+    <md-nav-item v-link="{name: 'user',activeClass: 'active'}" v-if="user.user">{{ $t("user.title") }}</md-nav-item>
+    <md-nav-item v-link="{name: 'loguin',activeClass: 'active'}" v-if="!user.user">{{ $t("user.login") }}</md-nav-item>
+    <md-nav-item @click="logout()" v-if="user.user">{{ $t("user.logout") }}</md-nav-item>
 
+    <md-nav-item href="javascript:void(0)" @click="openMenu($event)">
+        {{lenguajeName}}<md-icon right>arrow_drop_down</md-icon>
+    </md-nav-item>
   </md-navbar>
 <div>
   <md-modal id="aboutModal">
@@ -51,7 +57,6 @@
     </div>
   </md-card>
     </md-modal>
-
       <user-invites></user-invites>
 </div>
     
@@ -67,15 +72,36 @@ import store from './vuex/store'
 import UserService from './services/user'
 import Board from './services/board'
 import UserInvites from './components/home/invites'
+import Lenguajes from './services/lenguajes'
+import Store from './services/lstorage'
 export default {
   data () {
     return {
       closeResult: '',
       user: UserService,
-      board: Board
+      board: Board,
+      lenguajeName: 'Español',
+      lenguaje: Store.get('lenguaje', 'es'),
+      lenguajes: Lenguajes.lenguajes
     }
   },
   methods: {
+    getLenguajeName () {
+      for (var i in this.lenguajes) {
+        if (this.lenguajes[i].value === this.lenguaje) {
+          this.lenguajeName = this.lenguajes[i].label
+        }
+      }
+    },
+    changeLenguaje (len) {
+      if (this.lenguaje !== len) {
+        Store.set('lenguaje', len)
+        window.location.reload()
+      }
+    },
+    openMenu (event) {
+      this.$broadcast('dropdown-list::open', event)
+    },
     openModal () {
       this.$broadcast('modal::open', 'aboutModal')
     },
@@ -114,6 +140,7 @@ export default {
   },
   created () {
     this.userLoguinSocket()
+    this.getLenguajeName()
   },
   components: {
     UserInvites

@@ -1,48 +1,38 @@
 <template>
-<div class="col s12" v-cloak>
-
-<div class="col s12 m12 l6">
-    <div class="col s12 m12 l12 card-panel">
-      <div  class="col s1 m1 l1">
-       <img style="height: 80px; position: relative;" src="../../../static/images/pieces/staunton/basic/White-Knight-Flipped.png" alt="">
+  <div class="col s12" v-cloak>
+    <div class="col s12 m12 l6">
+      <div class="col s12 m12 l12 card-panel">
+        <div  class="col s1 m1 l1">
+         <img style="height: 80px; position: relative;" src="../../../static/images/pieces/staunton/basic/White-Knight-Flipped.png" alt="">
+       </div>
+       <div  class="col s4 m4 l4" style="text-align: right;" v-bind:class="[turn === 'white' ? 'userTurn' : '']">
+        <h5 class="flat-text-header">{{ boardShow.u1 }}</h5>
+        <p class="flat-text-header" >{{ times.white | timeBoard }}</p>
       </div>
-      <div  class="col s4 m4 l4" style="text-align: right;" v-bind:class="[turn === 'white' ? 'userTurn' : '']">
-      <h5 class="flat-text-header">{{ boardShow.u1 }}</h5>
-      <p class="flat-text-header" >{{ times.white | timeBoard }}</p>
+      <div  class="col s2 m2 l2" style="text-align: center;">
+        <h5 class="flat-text-header" style="position: relative;
+        top: 15px;">vs</h5>
       </div>
-
-     <div  class="col s2 m2 l2" style="text-align: center;">
-      <h5 class="flat-text-header" style="position: relative;
-    top: 15px;">vs</h5>
+      <div  class="col s4 m4 l4" style="text-align: left;" v-bind:class="[turn === 'black' ? 'userTurn' : '']">
+        <h5 class="flat-text-header">{{ boardShow.u2 }}</h5>
+        <p class="flat-text-header" style="float: center">{{ times.black | timeBoard}}</p>
       </div>
-            <div  class="col s4 m4 l4" style="text-align: left;" v-bind:class="[turn === 'black' ? 'userTurn' : '']">
-      <h5 class="flat-text-header">{{ boardShow.u2 }}</h5>
-      <p class="flat-text-header" style="float: center">{{ times.black | timeBoard}}</p>
-      </div>
-
-          <div  class="col s1 m1 l1" >
+      <div  class="col s1 m1 l1" >
        <img style="height: 80px; left: -30px; position: relative;" src="../../../static/images/pieces/staunton/basic/Black-Knight-Flipped.png" alt="">
-      </div>
-
+     </div>
+   </div>
+   <div class="col s12 m12 l12 " style="padding: 0 0 ">
+    <div id='frontBoardVisor' style="width: 100%;height: 460px;" class="wood chessground vuejs cburnett"></div>
   </div>
-  <div class="col s12 m12 l12 " style="padding: 0 0 ">
-        <div id='frontBoardVisor' style="width: 100%;height: 460px;" class="wood chessground vuejs cburnett"></div>
-
-  </div>
-
-  </div>  
-
-  <div class="col s12 m12 l6">
-    <h5 class="flat-text-header" style="float: center" v-if="board.wins">Resultado</h5>
-    Gana {{ board.wins }} por {{ board.motiv }}
-    
-    <h5 class="flat-text-header" style="float: center">pgn</h5>
-    {{ pgn }}
-    <board-history :history="history"></board-history>
-  </div> 
-
-  </div>
-
+</div>
+<div class="col s12 m12 l6">
+  <h5 class="flat-text-header" style="float: center" v-if="board.wins">{{ $t("visor.result") }} </h5>
+  {{ $t("visor.wins") }} {{ board.wins }} {{ $t("visor.by") }}  {{ board.motiv }}
+  <h5 class="flat-text-header" style="float: center">pgn</h5>
+  {{ pgn }}
+  <board-history :history="history"></board-history>
+</div>
+</div>
 </template>
 
 <script>

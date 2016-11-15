@@ -3,26 +3,26 @@
 	<div class="row" style="margin-left: 30%;margin-right: 30%;margin-top: 50px;">
 		<div class="col s12 card-panel center">    
      <form v-on:submit.prevent="userloguin()">
-     {{ error }}
+     <b v-show="error!==''">{{ $t("login.errors."+error) }}</b>     
 			<div class="row">    
 				<md-input name="username" :value.sync="user.username">
-				Usuario
+				{{ $t("login.username") }}
 				<template slot="icon-name">account_circle</template>
 			</md-input>
 
 			<md-input type="password" name="password" :value.sync="user.password" placeholder="password">
-			Contraseña
+			{{ $t("login.password") }}
 			<template slot="icon-name">lock</template>
 		</md-input>
 	</div>
 	<div class="row">
 		<div class="input-field col s12">
         <md-btn class="btn waves-effect waves-light col s12" type="submit">
-    Loguin
+    {{ $t("login.title") }}
   </md-btn>		
 		</div>
 		<div class="input-field col s12">
-			<p class="margin center medium-small sign-up"><a v-link="{name: 'register'}">Crear una cuenta</a></p>
+			<p class="margin center medium-small sign-up"><a v-link="{name: 'register'}">{{ $t("login.createaccount") }}</a></p>
 		</div>
 	</div>
   </form>

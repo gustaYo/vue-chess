@@ -4,7 +4,7 @@
           style="display: none"
           id="{{ id || name }}"
           type="file"
-          :name="name"
+          name="{{ name }}"
           v-bind-boolean:multiple="multiple"
           @change="fileInputChange"
         >
@@ -26,11 +26,6 @@ export default {
     name: {
       type: String,
       required: true
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      'default': ''
     },
     multiple: {
       type: Boolean,
@@ -73,15 +68,13 @@ export default {
       var allOk = true
       Array.prototype.slice.call(files, 0).map(function (file) {
         sumSize += parseInt(file.size)
-        var maxSize = 50 * 1024 * 1024
+        var maxSize = parseInt(this.maxsize) * 1024 * 1024
         if (sumSize > maxSize) {
-          console.log('excede tamaño permitido')
           this.$dispatch('onFileError', this.myFiles, 'size_not_permit')
           allOk = false
         }
         var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|'
         if (this.pathpermit.indexOf(type) === -1) {
-          console.log('extencion de archivo no permitida')
           this.$dispatch('onFileError', this.myFiles, 'path_not_permit')
           allOk = false
         }
@@ -93,9 +86,7 @@ export default {
       var ident = this.id || this.name
       this.myFiles = document.getElementById(ident).files
       this.$dispatch('onFileChange', this.myFiles)
-      console.log(this.myFiles)
       if (this.validateFiles(this.myFiles)) {
-        console.log('send file')
         this.fileUpload()
       }
     },
@@ -124,8 +115,14 @@ export default {
           }
           if (xhr.status < 400) {
             var res = xhr.responseText
-            this.value.push(file)
-            this.$dispatch('onFileUpload', file, res)
+            var newFile = {
+              name: res,
+              size: file.size,
+              type: file.type,
+              lastModifiedDate: file.lastModifiedDate
+            }
+            this.value.push(newFile)
+            this.$dispatch('onFileUpload', newFile, res)
             resolve(file)
           } else {
             var err = xhr.responseText

@@ -1,9 +1,7 @@
-
 <div class="col s12" >
-
 	<div class="col s12 m6 l3">
 		<div> 
-			<label>Encontrados :{{totalRecords}}</label>
+			<label>{{ $t("visor.found") }}  :{{totalRecords}}</label>
 			<div style="text-align: center;">
 				<md-pagination :current-page.sync="skip" :page-size="20" :total-records.sync="totalRecords">			
 			</md-pagination>
@@ -14,7 +12,7 @@
 		:value.sync="filters.u1"
 		@keyup="Filter() | debounce 300"
 		>
-		white name      
+		{{ $t("visor.whiteName") }}   
 	</md-input>
 
 	<md-input
@@ -23,7 +21,7 @@
 	:value.sync="filters.u2"
 	@keyup="Filter() | debounce 300"
 	>
-	black name      
+	{{ $t("visor.blackName") }}   
 </md-input>			
 <div  style="height: 65vh;overflow: auto" class="col s12 m12 l12">
 	<table class="table">
@@ -35,22 +33,10 @@
 		</tbody>
 	</table>
 </div>
-
 </div>
-
 </div>
-
 <div class="col s12 m6 l9">
 	<board-visor :board="boardView"></board-visor>
 </div>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-	tr:hover{
-		background-color: #B9D4CB;
-	}
-
-
-</style>
 </div>
 

@@ -1,4 +1,5 @@
 <script>
+import Vue from 'vue'
 import Chessground from 'chessground'
 import MiChess from 'chess.js'
 import Garbochess from 'garbochess'
@@ -299,6 +300,7 @@ export default {
         this.changeStateGame(board.pgn)
         this.boardGameMove(board.pgn)
         this.board = board
+        this.styleAdapter()
       }.bind(this))
       var thisUser = UserService.getUser().username
       var otherUser = this.board.u1 === thisUser ? this.board.u2 : this.board.u1
@@ -314,17 +316,17 @@ export default {
     gameState (state = {}) {
       if (state.motiv) {
         if (state.motiv === 'checkmate') {
-          return 'checkmate ' + 'gana ' + state.color
+          return 'checkmate ' + Vue.t('game.wins') + ' ' + state.color
         }
         if (state.motiv === 'drawn_position') {
-          return 'drawn_position ' + 'gana' + state.color
+          return 'drawn_position ' + Vue.t('game.wins') + ' ' + state.color
         }
         if (state.motiv === 'rendicion') {
-          return 'gana ' + state.color + ' por rendicion'
+          return Vue.t('game.wins') + ' ' + state.color + ' ' + Vue.t('game.motives.rendi')
         }
         if (state.motiv === 'timeout') {
           this.boardGameCountDown(0, state.color === 'white' ? 'black' : 'white')
-          return 'gana ' + state.color + ' por tiempo'
+          return Vue.t('game.wins') + ' ' + state.color + ' ' + Vue.t('game.motives.time')
         }
       }
       // checkmate?
@@ -345,9 +347,9 @@ export default {
         return
       }
       if (this.chess.in_check()) {
-        return this.turn + 'is in check'
+        return this.turn + Vue.t('game.check')
       }
-      return 'Juegan las ' + this.turn
+      return Vue.t('game.turnColor') + ' ' + this.turn
     },
     rendir () {
       const result = {
@@ -428,5 +430,47 @@ export default {
   }
 }
 </script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .menText p{
+    text-align: justify;
+    -moz-hyphens: auto;
+    word-wrap: break-word;
+  }
+
+  .userTurn {
+    background-color: #D8B980;
+  }
+  .send-btn{
+    height: 60px;
+  }
+
+  .chessground.tiny {
+    width: 225px;
+    height: 225px;
+  }
+  .chessground.small {
+    width: 300px;
+    height: 300px;
+  }
+  .chessground.normal {
+    width: 512px;
+    height: 512px;
+  }
+  .cg-board-wrap svg {
+    opacity: 0.6;
+    overflow: hidden;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .cg-board-wrap svg * {
+    transition: 0.35s;
+  }
+</style>
 
 
