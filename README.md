@@ -20,7 +20,6 @@ Images
 ![mostrando app](images/game.png "users players")
 ![mostrando app](images/invite.png "user invite")
 ![mostrando app](images/invites.png "invites users")
-![mostrando app](images/init.png "init game")
 ![mostrando app](images/puzzles.png "Puzzle (White mates in 3)")
 ![mostrando app](images/create_puzzle.png "adding a puzzle type")
 ![mostrando app](images/visor.png "visor")
