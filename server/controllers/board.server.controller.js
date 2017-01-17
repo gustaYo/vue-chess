@@ -4,6 +4,7 @@ var Board = mongoose.model('boards');
 var boards= {};
 var async = require('async');
 var userController= require('./chat.server.controller');
+var useFork = false
 
 var userIsPlayed = (user) => {
 	for (var i in boards) {
@@ -23,6 +24,17 @@ var changeBoards = (someBoard, method) => {
 	process.send(send)
 }
 
+exports.confirmGame = (io,socket,dta,next) => {
+	// usuario invitado confirma que quiere juegar la partida indicada
+	var nicknames = userController.getNicknames(io)
+	var otherUser = dta.u1 === socket.nickname.nickname ? dta.u2 : dta.u1
+	if(nicknames[otherUser]){
+		dta.event = 'confirmGame'
+		dta.confirm = true
+		io.sockets.connected[nicknames[otherUser].socket].emit("event", dta);
+	}
+	nicknames = {}
+}
 
 exports.addBoard = (io,socket,dta,next) => {
 	// crear nuevo tablero
@@ -65,13 +77,14 @@ exports.addBoard = (io,socket,dta,next) => {
 		if (dta.u2 !== 'PC' && nicknames[dta.u2]) {
 			io.sockets.connected[nicknames[dta.u2].socket].join(board._id);
 		}
-		socket.join(board._id)		
+		socket.join(board._id)
 		// iniciar juego de sala
 		var data= {
 			event: 'initGame',
 			data: board
 		}
 		io.sockets.in(board._id).emit('event', data);
+		nicknames = {}
 		return next(null,board)
 	});
 }
@@ -81,6 +94,7 @@ exports.inviteGame = (io,socket,dta,next) => {
 	if(nicknames[dta.data.recibe]){
 		io.sockets.connected[nicknames[dta.data.recibe].socket].emit("event", dta);
 	}
+	nicknames = {}
 }
 
 var closeGame = (io, dta, next) => {
@@ -150,7 +164,6 @@ var isFinishTime = (idBoard, io) => {
 }
 exports.move = (io,socket,board,next) => {
 	// salvar estado de tablero
-
 	if (boards[board.data.idBoard]) {
 		if (board.data.pgn) {
 			boards[board.data.idBoard].pgn = board.data.pgn;
@@ -178,7 +191,6 @@ exports.getBoard = (io,socket,board,next) => {
 		return next('not_found')
 	}
 	// en el servidor se llevan los tiempos reales de cada partida
-
 	if (!timesBoards[board._id]){
 		// inicializacion de tiempos de juego
 		timesBoards[board._id] = 
@@ -215,7 +227,7 @@ exports.getBoard = (io,socket,board,next) => {
 	next(null,{board:boards[board._id] ,times: timesBoards[board._id].times})
 	setTimeout(function() {
 		isFinishTime(board._id, io);
-	},1000)	
+	},1000)
 }
 
 exports.filterViews = (req, res) => {
@@ -243,4 +255,132 @@ exports.filterViews = (req, res) => {
 			return res.status(200).send(results)
 		}
 	});
+}
+
+exports.stats = (req, res) => {
+	var parms = req.query;
+	getStaticticsUser(parms.user, (err,results) => {
+		// dar formato al resultado
+		results = formatResultStatis(results)
+		if (err) {
+			return res.status(500).send(err);
+		} else {
+			return res.status(200).send(results)
+		}
+	})
+
+
+}
+
+var getStaticticsUser = (user,next) => {
+	async.parallel({
+		whitevsPC: function(callback) {
+			Board.count(
+			{
+				u1: user,
+				u2: 'PC',
+				wins: 'white'
+			}
+			, function(err, count) {
+				callback(null, count);
+			})
+		},
+		blackvsPC: function(callback) {
+			Board.count(
+			{
+				u2: user,
+				u1: 'PC',
+				wins: 'black'
+			}
+			, function(err, count) {
+				callback(null, count);
+			})
+		},		
+		totalWhitevsPC: function(callback) {
+			Board.count(
+			{
+				u1: user,
+				u2: 'PC'
+			}
+			, function(err, count) {
+				callback(null, count);
+			})
+		},		
+		totalvsPC: function(callback) {
+			Board.count(
+			{
+				u1: {$in: ['PC',user]},
+				u2: {$in: ['PC',user]}
+			}
+			, function(err, count) {
+				callback(null, count);
+			})
+		},
+
+ // vs user no pc
+ whitevsOthersUsers: function(callback) {
+ 	Board.count(
+ 	{
+ 		u1: user,
+ 		u2: {$nin: ['PC']},
+ 		wins: 'white'
+ 	}
+ 	, function(err, count) {
+ 		callback(null, count);
+ 	})
+ },
+ blackvsOthersUsers: function(callback) {
+ 	Board.count(
+ 	{
+ 		u2: user,
+ 		u1: {$nin: ['PC']},
+ 		wins: 'black'
+ 	}
+ 	, function(err, count) {
+ 		callback(null, count);
+ 	})
+ }, 
+ totalvsOthersUsers: function(callback) {
+ 	Board.count(
+ 		{$or: 
+ 			[{u1: user, u2: {$nin: ['PC']}},
+ 			{u1: {$nin: ['PC']}, u2: user}]
+ 		}
+ 		, function(err, count) {
+ 			callback(null, count);
+ 		})
+ },
+ totalWhitevsOthersUsers: function(callback) {
+ 	Board.count(
+ 	{
+ 		u1: user,
+ 		u2: {$nin: ['PC']}
+ 	}
+ 	, function(err, count) {
+ 		callback(null, count);
+ 	})
+ }
+},
+function(err, results){
+	if (err) {
+		return next(err);
+	} else {
+		return next(null,results)
+	}
+});
+}
+
+var formatResultStatis = (results) => {
+	var result= {}
+	for(var key in results) {
+		if (Array.isArray(results[key])) {
+			for(var n in results[key]) {
+				result[key] = {}
+				result[key][results[key][n]._id]=results[key][n].nums
+			}
+		}else {
+			result[key] = results[key]
+		}
+	}
+	return result
 }

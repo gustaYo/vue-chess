@@ -19,6 +19,8 @@ exports.username = (io,socket,dta,next) => {
     }
     var _user = {
         nickname: user.username,
+        name: user.name,
+        image: user.image,        
         id: user._id,
         socket:socket.id
     }
@@ -138,21 +140,17 @@ var loadConver = (user1, user2, range, next) => {
     .sort({created: -1})
     .limit(range.limit)
     .skip(range.skip)
-    .exec(function(err, men) {
-        if (err) {
-            return next(err);
-        } else {
-            return next(men);
-        }
+    .exec(function(err, mens) {
+        next(err,mens)
     })
 }
 
 exports.loadUserConvert = (io,socket,dta,next) => {
     if (socket.nickname)
-        loadConver(socket.nickname.nickname, dta.user, dta.range, function (log) {
-            next(null,log)
+        loadConver(socket.nickname.nickname, dta.user, dta.range, function (err,log) {
+            next(err,log)
         })
-}    
+}
 
 var userLog = (user, next) => {
     var losgs_retorn = new Array();
@@ -240,4 +238,17 @@ exports.uploadFile = (req, res) => {
   });
   // parse the incoming request containing the form data
   form.parse(req);  
+}
+
+exports.deleteImage = function(req, res) {
+    var parms = req.body    
+    var dir = path.join(__dirname, '../public/uploads')
+    fs.unlink(dir+'/'+parms.name, function(err){
+        if(err){
+            console.log(err)
+            return res.send(500, err);
+        }
+        console.log('eliminando', parms)
+        return res.status(200).send('ok')
+    })
 }

@@ -4,15 +4,16 @@
       <h4 class="flat-text-header">{{ time[color] | boardTime }}</h4>
     </div>
     <div  class="col s4 m4 l6">
-     <p class="flat-text-header" style="float: right">{{ username }}</p>     
+     <p class="flat-text-header" style="float: right">{{ username.username || 'PC'}}</p>     
    </div>
-   <div  class="col s4 m4 l3">
-    <img alt="" src="../../assets/50x50defaultAvatar.png" class="avatar avatar-50 photo avatar-default" height="50" width="50">
+   <div  class="col s4 m4 l3" v-show="username.image">
+    <img alt="" v-bind:src="imageUrl(username.image)" class="avatar avatar-50 photo avatar-default circle" height="60" width="60">
   </div>
 </div>
 </template>
 
 <script>
+import Store from '../../services/lstorage'
 import { getGameTurn, getGameTimesUsers } from '../../vuex/getters'
 export default {
   name: 'userCard',
@@ -21,7 +22,7 @@ export default {
       type: String
     },
     username: {
-      type: String
+      type: Object
     }
   },
   vuex: {
@@ -33,6 +34,9 @@ export default {
   methods: {
     pad (n, lenght) {
       return ('0' + n).slice(lenght)
+    },
+    imageUrl (name) {
+      return Store.get('serverDir') + '/uploads/' + name
     }
   },
   filters: {

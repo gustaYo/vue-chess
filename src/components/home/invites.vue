@@ -16,9 +16,10 @@
   <md-collection class="col s12 m12 l12">
   <md-collection-item class="col s6 m6 l6 avatar" v-for="invite in invitesGame">
   <img style="top: 20px;" src="../../assets/50x50defaultAvatar.png" alt="" class="circle">
-  <span class="title"> {{ invite.u1 }} <img style="height: 50px;" src="../../../static/images/pieces/staunton/basic/White-Queen.png" alt=""> VS <img style="height: 50px;" src="../../../static/images/pieces/staunton/basic/Black-Queen.png" alt=""> {{ invite.u2 }}</span>
-  <p>Tiempo: {{ invite.time }} minutos</p>
-  <a class="secondary-content" @click="InviteGameAction(invite, true)"><i class="material-icons">grade</i></a>
+  <span class="title" > {{ invite.u1 }} <img style="height: 50px;" src="../../../static/images/pieces/staunton/basic/White-Queen.png" alt=""> VS <img style="height: 50px;" src="../../../static/images/pieces/staunton/basic/Black-Queen.png" alt=""> {{ invite.u2 }}</span>
+  <p>Tiempo: {{ invite.time }} minutos {{[invite.event === 'confirmGame'? 'confirmando Iniciar ...': '']}}</p>
+
+  <a class="secondary-content" @click="InviteGameAction(invite)"><i class="material-icons">grade</i></a>
   <a class="secondary-content" style="top: 50px" @click="deleteInvite(invite)"><i class="material-icons">delete</i></a>
 </md-collection-item>
 </md-collection>
@@ -49,6 +50,12 @@
 </md-button>
 </span>
 </md-modal>
+
+<style scoped>
+.confirmInvite{
+      background-color: #658c8c !important;
+}
+</style>
 </div>
 </template>
 
@@ -90,25 +97,42 @@ export default {
         }
       }.bind(this), 1000)
     },
-    InviteGameAction (invite, aceptada) {
+    testUser (next) {
+      UserService.testUser(this, {}).then(function (response) {
+        UserService.setUser(response.data)
+        next()
+      }, function (response) {
+        this.error = response.data
+      })
+    },
+    InviteGameAction (invite) {
       // preparar tablero
       var data = {
         c: 'board',
-        f: 'addBoard',
+        f: 'confirmGame',
         data: invite
+      }
+      if (invite.confirm || invite.vsPc) {
+        data.f = 'addBoard'
+        this.deleteInvite(invite)
+      } else {
+        this.toast('<span>Esperando confirmacion de usuario</span>', 2000)
       }
       this.$socket.emit('event', data, function (...callbacks) {
         if (callbacks[0]) {
           window.alert(callbacks[0])
         }
       })
+      // this.deleteInvite(invite)
       // eliminar invitacion del arreglo
     },
     deleteInvite (invite) {
       var post = this.invitesGame.indexOf(invite)
-      this.invitesGame.splice(post, 1)
-      Store.set('invitesGame', this.invitesGame)
-      this.toast('<span>Eliminada correctamente</span>', 2000)
+      if (post !== -1) {
+        this.invitesGame.splice(post, 1)
+        Store.set('invitesGame', this.invitesGame)
+        this.toast('<span>Eliminada correctamente</span>', 2000)
+      }
     },
     pcGameInit () {
       this.$broadcast('modal::open', 'invitePCGame')
@@ -124,16 +148,27 @@ export default {
         u1: '',
         u2: '',
         public: false,
-        time: '10'
+        vsPc: true,
+        time: '30',
+        confirm: false,
+        created: new Date().getTime()
       }
       if (this.newboard.color === 'w') {
-        invite.u1 = UserService.getUser().username
+        invite.u1 = UserService.user.username
         invite.u2 = 'PC'
       } else {
-        invite.u2 = UserService.getUser().username
+        invite.u2 = UserService.user.username
         invite.u1 = 'PC'
       }
-      this.InviteGameAction(invite, false)
+      this.InviteGameAction(invite)
+    },
+    isAdding (invite) {
+      for (var i in this.invitesGame) {
+        if (this.invitesGame[i].created === invite.created) {
+          return true
+        }
+      }
+      return false
     }
   },
   events: {
@@ -141,6 +176,14 @@ export default {
       this.invitesGame.push(data)
       Store.set('invitesGame', this.invitesGame)
       this.toast('<span>Tienes una nueva invitacion de juego</span>', 5000)
+    },
+    confirmGame (data) {
+      if (!this.isAdding(data)) {
+        this.invitesGame.push(data)
+      }
+      Store.set('invitesGame', this.invitesGame)
+      this.$broadcast('modal::open', 'invitesGame')
+      this.toast('<span>Invitacion de juego confirmada</span>', 5000)
     },
     initGame (data) {
       // inicializando un tablero

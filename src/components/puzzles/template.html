@@ -5,7 +5,7 @@
 		v-for="puzzleT in puzzlesType"
 		@click="selectPuzzleType(puzzleT)"
 		:active="puzzleT.type == puzzleType.type">
-		{{ puzzleT.type }}<md-badge>34</md-badge>
+		{{ puzzleT.type }}<md-badge>{{ counts[puzzleT.type] }}</md-badge>
 	</md-collection-item>	    
 </md-collection>
 <md-card class="blue-grey darken-1" content-class="white-text">
@@ -21,29 +21,39 @@
 	<a @click="delPuzzle()" v-if="user.username === item.createby">{{ $t("puzzles.create.delete") }}</a>
 </div>
 </md-card>
+
+
+
 </div>
 <div class="col s12 m12 l9">	 	
 	<div class="col s12 m12 l2">
-		<div style="text-align: center">
+		<div style="text-align: center" v-show="puzzles.length > 0">
 			<label>{{ $t("puzzles.list") }}</label>
 		</div>
-		<div style="height: 80vh;overflow: auto">	 	
-			<md-collection>
-			<md-collection-item v-for="puzzle in puzzles" :active="item._id == puzzle._id" @click="selectItm(puzzle)">
-			Puzzle {{ $index }}<md-badge>{{puzzle.results}}</md-badge>
-		</md-collection-item>	    
-	</md-collection>
-</div>
+		<div class="col s12 m12" v-show="puzzles.length === 0">
+			<div class="center promo">
+				<md-icon>flash_on</md-icon>
+				<p class="promo-caption">Atencion</p>
+				<p class="light center">
+					Selecciona un tipo de puzzle a resolver
+				</p>
+			</div>
+		</div>
+		<md-collection v-show="puzzles.length > 0" id="listSomePuzzles" style="max-height: 80vh;overflow: auto">
+		<md-collection-item v-for="puzzle in puzzles" :active="item._id == puzzle._id" @click="selectItm(puzzle)">
+		Puzzle {{ $index + 1 }}<md-badge>{{puzzle.results}}</md-badge>
+	</md-collection-item>	    
+</md-collection>
 </div>
 <div class="col s12 m12 l10">
 	<div style="text-align: left">
 		<label>{{ puzzleType.description }}</label>
 	</div>	 	
-	<puzzle-chess :puzzle="item"></puzzle-chess>
+	<puzzle-chess :puzzle="item" :next-puzzle="nextPuzzle"></puzzle-chess>
 </div>
 </div>	 
 <md-modal id="modalCreatePuzzle">
-<h4 style="text-align: center">{{ $t("puzzles.add") }} {{ puzzleType.type }}</h4>
+<h4 style="text-align: center">{{ $t("puzzles.create.title") }} {{ puzzleType.type }}</h4>
 <div class="col s12 m12 l12">
 	<div class="col s12 m12 l6">
 		<div id='puzzleGenerateFenInit' class="merida light-wood-3d chessground small"></div>

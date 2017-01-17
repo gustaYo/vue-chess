@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'); 
+var async = require('async');
 var Puzzle = mongoose.model('puzzles');
 var userController= require('./user.server.controller');
 
@@ -30,6 +31,67 @@ exports.get = (req, res) => {
 		res.status(200).send(puzzles)
 	})
 }
+
+exports.resolve = (req, res) => {
+	Puzzle.update(
+		{_id: req.body._id},
+		{$inc: {
+			corrects: req.body.resolve,
+			intents: 1
+		}
+	}, function(err) {
+		if (err)
+			console.log(err)
+		res.status(200).send('ok')		
+	});
+}
+
+exports.count = (req, res) => {
+	async.parallel({
+		MateIn1: function(callback) {
+			Puzzle.count({
+				type: 'MateIn1',
+			}, function(err, count) {
+				callback(null, count);
+			})
+		},
+		MateIn2: function(callback) {
+			Puzzle.count({
+				type: 'MateIn2',
+			}, function(err, count) {
+				callback(null, count);
+			})
+		},
+		MateIn3: function(callback) {
+			Puzzle.count({
+				type: 'MateIn3',
+			}, function(err, count) {
+				callback(null, count);
+			})
+		},		
+		FindFork: function(callback) {
+			Puzzle.count({
+				type: 'FindFork',
+			}, function(err, count) {
+				callback(null, count);
+			})
+		},
+		TakePiece: function(callback) {
+			Puzzle.count({
+				type: 'TakePiece',
+			}, function(err, count) {
+				callback(null, count);
+			})
+		}		
+	},
+	function(e,data){
+		if (e){
+			return res.send(500, e); 
+		}
+		return res.status(200).send(data)
+	});
+}
+
 
 exports.deletePuzzle = (req, res) => {
 	// validar si usuario es propietario en realidad del puzzle
@@ -197,13 +259,6 @@ var puzzlesInitDefault = [
 	"type" : "MateIn1",
 	"createby" : "ibis",
 	"feninit" : "r1bqk2r/pp1n2p1/2p1p2p/3p4/3P4/B1PB1N2/P1P2PPP/R2Q2K1",
-	"fenfinish" : "",
-	"nummoves" : "1"
-},
-{
-	"type" : "MateIn1",
-	"createby" : "ibis",
-	"feninit" : "8/q1p5/3b4/1P3Qn1/3k4/NP2r3/7P/1N2K3",
 	"fenfinish" : "",
 	"nummoves" : "1"
 },
@@ -444,4 +499,34 @@ var puzzlesInitDefault = [
 	"feninit" : "5r2/1r3R1n/8/8/8/3b4/5q2/K6k",
 	"fenfinish" : "5r2/1R5n/8/8/8/3b4/5q2/K6k",
 	"nummoves" : "1"
-}]
+},
+{
+	"type" : "TakePiece",
+	"createby" : "ibis",
+	"feninit" : "3q4/1r3b2/8/r2Q2n1/8/8/3r4/k6K",
+	"fenfinish" : "3q4/1Q3b2/8/r5n1/8/8/3r4/k6K",
+	"nummoves" : "1"
+},
+{
+	"type" : "TakePiece",
+	"createby" : "ibis",
+	"feninit" : "k7/2b5/8/3p4/7b/5pB1/5q1r/K7",
+	"fenfinish" : "k7/2B5/8/3p4/7b/5p2/5q1r/K7",
+	"nummoves" : "1"
+},
+{
+	"type" : "TakePiece",
+	"createby" : "ibis",
+	"feninit" : "k3r3/5q2/3Nb3/8/2n1r3/8/8/K7",
+	"fenfinish" : "k3r3/5q2/4b3/8/2n1N3/8/8/K7",
+	"nummoves" : "1"
+},
+{
+	"type" : "TakePiece",
+	"createby" : "ibis",
+	"feninit" : "2b5/7n/8/5B2/8/7r/8/Kb3q1k",
+	"fenfinish" : "2B5/7n/8/8/8/7r/8/Kb3q1k",
+	"nummoves" : "1"
+}
+
+]

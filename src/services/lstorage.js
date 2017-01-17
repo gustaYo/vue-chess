@@ -21,7 +21,7 @@ export default {
   clearLocal (reload = false) {
     var prefixRegex = new RegExp('^' + this.prefix)
     var store = this.lStorage
-    Object.keys(store).forEach(function (key) {
+    Object.keys(store).forEach((key) => {
       if (prefixRegex.test(key)) {
         store.removeItem(key)
       }

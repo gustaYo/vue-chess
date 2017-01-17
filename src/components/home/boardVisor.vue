@@ -26,11 +26,14 @@
   </div>
 </div>
 <div class="col s12 m12 l6">
-  <h5 class="flat-text-header" style="float: center" v-if="board.wins">{{ $t("visor.result") }} </h5>
-  {{ $t("visor.wins") }} {{ board.wins }} {{ $t("visor.by") }}  {{ board.motiv }}
-  <h5 class="flat-text-header" style="float: center">pgn</h5>
-  {{ pgn }}
-  <board-history :history="history"></board-history>
+    <h5 class="flat-text-header" style="float: center" v-if="board.wins || result.wins !==''">{{ $t("visor.result") }} </h5>
+    <label v-if="board.wins || result.wins !==''">
+      {{ $t("visor.wins") }} {{ board.wins || result.wins }} {{ $t("visor.by") }}  {{ board.motiv || result.motiv }}
+    </label>
+    <h5 class="flat-text-header" style="float: center">pgn</h5>
+    {{ pgn }}
+    <board-history :history="history"></board-history>
+
 </div>
 </div>
 </template>
@@ -54,6 +57,7 @@ export default {
   },
   data () {
     return {
+      result: {},
       boardShow: {},
       ground: 0,
       orientation: 'white',
@@ -85,9 +89,20 @@ export default {
       if (board.times) {
         this.times = board.times
       }
+    },
+    gameFinish (dataResult) {
+      this.stateFinishGame(dataResult)
     }
   },
   methods: {
+    stateFinishGame (state) {
+      this.result = {
+        wins: state.result.color,
+        motiv: state.result.motiv
+      }
+      clearInterval(timesColor.black)
+      clearInterval(timesColor.white)
+    },
     changeStateGame (board) {
       this.pgn = board.pgn
       this.chess.load_pgn(board.pgn)
@@ -175,7 +190,7 @@ export default {
         if (!this.chess.game_over()) {
           window.computerGame = setTimeout(function () {
             this.timerfunction(fen)
-          }.bind(this), 2000)
+          }.bind(this), 10000)
         } else {
           clearTimeout(window.computerGame)
         }
@@ -196,6 +211,10 @@ export default {
   watch: {
     board (newVal, oldVal) {
       this.loadDataGame(newVal)
+      this.result = {
+        wins: '',
+        motiv: ''
+      }
     },
     turn (newVal, oldVal) {
       clearInterval(timesColor[oldVal])

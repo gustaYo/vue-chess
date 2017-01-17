@@ -17,9 +17,14 @@ VueChess
 Images
 ------
 
-![mostrando app](images/1.png "Vs PC")
-![mostrando app](images/2.png "Viewing a finished game")
-![mostrando app](images/3.png "Puzzle (White mates in a movement)")
+![mostrando app](images/game.png "users players")
+![mostrando app](images/invite.png "user invite")
+![mostrando app](images/invites.png "invites users")
+![mostrando app](images/init.png "init game")
+![mostrando app](images/puzzles.png "Puzzle (White mates in 3)")
+![mostrando app](images/create_puzzle.png "adding a puzzle type")
+![mostrando app](images/visor.png "visor")
+![mostrando app](images/user_account.png "user account")
 
 
 *in progress*

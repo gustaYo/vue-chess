@@ -16,6 +16,7 @@ export default {
   template: require('./template.html'),
   data () {
     return {
+      finduser: '',
       dirActionUpload: Store.get('serverDir') + '/chat/upload',
       dirServer: Store.get('serverDir'),
       filesUpload: [],
@@ -34,6 +35,7 @@ export default {
         public: true
       },
       users: [],
+      usersLength: 0,
       games: [],
       board: Store.get('boardSee', {})
     }
@@ -102,6 +104,9 @@ export default {
     BodyMen
   },
   methods: {
+    imageUrl (name) {
+      return this.dirServer + '/uploads/' + name
+    },
     userScroll (e) {
       var scrollTop = e.target.scrollTop
       // var scrollWidth = e.target.scrollWidth
@@ -208,9 +213,11 @@ export default {
       }.bind(this), 200)
     },
     sendMensaje (type = 'text') {
-      if (this.chattext.trim() === '') {
-        this.chattext = ''
-        return
+      if (type === 'text') {
+        if (this.chattext.trim() === '') {
+          this.chattext = ''
+          return
+        }
       }
       var post = this.foundTab(this.active)
       var men = {
@@ -352,24 +359,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .menText p{
-    text-align: justify;
-    -moz-hyphens: auto;
-    word-wrap: break-word;
-  }
-
-  .send-btn{
-    height: 60px;
-  }
-  .close-tab {
-    font-size: x-large;
-  }
-  .close-tab:hover{
-    color: #9E1D1D;
-  }
-  .tabConvert{
-    height: 65vh;
-    overflow: auto;
-  }
-</style>

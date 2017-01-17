@@ -6,19 +6,26 @@ exports = module.exports = function(mongoose) {
     var UserSchema = new Schema({
         email: {
             type: String,
-            match: [/.+\@.+\..+/, "Please fill a valid email address"],
+            match: [/.+\@.+\..+/, "invalid_email_address"],
             unique: true,
+            required: 'email_required'
         },
         name: String,
-        fistlastname: String,
-        secondlastname: String,
+        image: {
+            type: String,
+            default: '50x50defaultAvatar.png'
+        },
+        firstName: String,
+        lastName: String,
         username: {
             type: String,
             unique: true,
-            required: 'Username is required',
+            required: 'username_required',
             trim: true
         },
-        password: String,
+        password: {
+            type: String
+        },
         created: {
             type: Date,
             default: Date.now
@@ -27,6 +34,8 @@ exports = module.exports = function(mongoose) {
         convAbiertas: {
             type: Array,
         },
+        age: Number,
+        sexo: String
     });
     UserSchema.plugin(uniqueValidator,{ message: 'error_unique_{PATH}' });
     module.exports = mongoose.model('users', UserSchema);

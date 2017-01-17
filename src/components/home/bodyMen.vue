@@ -1,21 +1,24 @@
 <template>
   <div class="col popover {{ [men.send === user.username  ? 'left' : 'right'] }}" v-for="men in mens">
     <div class="arrow"></div>
-    <h3 class="popover-title">{{ men.send }} <span style="float:right">{{ men.created | moment 'MMMM Do YYYY, h:mm:ss a'}}</span></h3>
+    <h3 class="popover-title">
+    {{ men.send }} 
+    
+    <md-icon right @click="deleteMensaje(men, $index)" v-show="men.send === user.username">close</md-icon>
+    <md-icon right @click="editMen(men)" v-show="men.send === user.username">edit</md-icon>
+    <span style="padding-left:20px">{{ men.created | moment 'MMMM Do YYYY, h:mm:ss a'}}</span></h3>
     <div class="popover-content menText">
       <p v-if="men.type==='text'"> {{ men.body }}</p>
-      <div style="float:left" v-if="men.type==='file'">      
-       <img v-if="isImage(men.body)" class="col s6 m6 l6" v-bind:src="imageUrl(men.body.name)" alt="">
-       <md-button v-else class="waves-effect waves-light" v-bind:href="imageUrl(men.body.name)">
-       <md-icon left>cloud</md-icon>{{men.body.name}}
-     </md-button>
+      <div v-if="men.type==='file'">
+       <img v-if="isImage(men.body)" @click="showImage()" class="col s8 m8 l8" v-bind:src="imageUrl(men.body.name)" alt=""
+       >
+       <md-button v-else class="waves-effect waves-light" @click="openInNewTab(men.body.name)">{{men.body.name}}</md-button>      
    </div>
  </div>
 </div>
 </template>
 
 <script>
-import UserService from '../../services/user'
 export default {
   name: 'BodyMen',
   props: {
@@ -24,20 +27,36 @@ export default {
     },
     dirServer: {
       type: String
+    },
+    user: {
+      type: Object
     }
   },
   data () {
     return {
-      user: UserService.getUser()
+      some: ''
     }
   },
   methods: {
+    openInNewTab (name) {
+      var win = window.open(this.dirServer + '/uploads/' + name, '_blank')
+      win.focus()
+    },
     imageUrl (name) {
       return this.dirServer + '/uploads/' + name
     },
     isImage (file) {
       var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|'
       return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1
+    },
+    deleteMensaje (men, post) {
+      if (window.confirm('Desea eliminar realmente')) {
+        this.mens.splice(post, 1)
+        console.log('elimino')
+      }
+    },
+    editMen (men) {
+      window.alert('editando mensaje')
     }
   }
 }

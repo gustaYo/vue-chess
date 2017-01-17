@@ -4,7 +4,8 @@
     <div class="col s12 m12 l9" style="padding: 0 0 ">
       <div id='puzzleBoard' style="width: 100%;height: 500px;" class="wood chessground vuejs cburnett"></div>
     </div>
-    <div class="col s12 m12 l3">  
+    <div class="col s12 m12 l3" style="text-align: center" v-show="puzzle.createby"> 
+    <md-card class=" darken-1"> 
       <h5 class="flat-text-header hello">{{ $t("puzzles.createBy") }}  </h5>
       {{puzzle.createby}}
       <h5 class="flat-text-header hello">{{ $t("puzzles.date") }}</h5>
@@ -13,11 +14,15 @@
       {{ $t("puzzles.color."+turn) }}
       <h6 class="flat-text-header hello">{{ $t("puzzles.movs") }}</h6>    
       {{numMoves}}
-      <div class="col s12 m12 l12">
         <div v-if="mate && numMoves===0">
           <span>
             <h3>{{ $t("puzzles.wins") }}</h3>      
           </span>
+          <a class="btn waves-effect waves-light col s12 m12 l12"
+          @click="nextPuzzle()"
+          >
+          Siguiente
+        </a>
         </div>
         <div v-if="!mate && numMoves===0">
           <h3>{{ $t("puzzles.lost") }}</h3>
@@ -27,7 +32,10 @@
           {{ $t("puzzles.reintent") }}
         </a>
       </div>
+    <div slot="actions">
+        <a >Intentos {{puzzle.corrects}}/{{puzzle.intents}}</a>
     </div>
+</md-card>
   </div>
 </div>
 </template>
@@ -37,11 +45,19 @@
 import Chessground from 'chessground'
 import Chess from 'chess.js'
 import Garbochess from 'garbochess'
+import PuzzleService from '../../services/puzzle'
 export default {
   name: 'puzzleChess',
   props: {
     puzzle: {
       type: Object
+    },
+    nextPuzzle: {
+      type: Function,
+      required: false,
+      'default': function () {
+        return false
+      }
     }
   },
   data () {
@@ -62,6 +78,13 @@ export default {
         if (ms.length) dests[s] = ms.map(function (m) { return m.to })
       })
       return dests
+    },
+    resolvePuzzle (parms) {
+      PuzzleService.resolve(this, parms).then(function (response) {
+        // window.alert('bien')
+      }, function (response) {
+        // window.alert('mal')
+      })
     },
     chessToColor (chess) {
       var t = chess.turn()
@@ -94,6 +117,7 @@ export default {
           this.mate = this.isFinish(this.chess)
         }
         this.ground.stop()
+        this.resolvePuzzle({_id: this.puzzle._id, resolve: this.mate ? 1 : 0})
       } else {
         this.movePC(this.turn)
       }

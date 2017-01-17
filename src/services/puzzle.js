@@ -8,5 +8,11 @@ export default {
   },
   get (ctx, data) {
     return ctx.$http.post(Storage.get('serverDir') + '/puzzle/get', data)
+  },
+  count (ctx) {
+    return ctx.$http.get(Storage.get('serverDir') + '/puzzle/get')
+  },
+  resolve (ctx, data) {
+    return ctx.$http.put(Storage.get('serverDir') + '/puzzle/get', data)
   }
 }

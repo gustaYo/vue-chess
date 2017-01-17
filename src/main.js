@@ -1,3 +1,4 @@
+var Dev = true
 import Vue from 'vue'
 import App from './App'
 import Resource from 'vue-resource'
@@ -6,11 +7,12 @@ import VueI18n from 'vue-i18n'
 import VueMaterialComponents from 'vue-material-components'
 import Moment from 'moment'
 import Home from 'components/home/'
+import VueCharts from 'vue-charts'
 // import Multiplayer from 'components/multiplayer/'
 // import CreateServer from 'components/createServer/'
 import UserLoguin from 'components/user/loguin/'
-import UserRegister from 'components/user/register/'
 import UserAccount from 'components/user/account/'
+import UserData from 'components/user/account/data'
 import Puzzle from 'components/puzzles/'
 import '../static/style.css'
 import '../static/base.css'
@@ -30,7 +32,7 @@ import locale from './services/locales'
 Vue.use(VueMaterialComponents)
 Vue.use(Router)
 Vue.use(Resource)
-// Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk'
+Vue.use(VueCharts)
 Vue.http.interceptors.push((request, next) => {
   // modify request
   var token = Storage.get('token')
@@ -49,15 +51,14 @@ Vue.http.interceptors.push((request, next) => {
 Storage.setPrefix('chessVuex')
 UserService.init()
 Vue.http.options.root = Storage.get('serverDir')
-Vue.filter('timeBoard', function (s) {
+Vue.filter('timeBoard', (s) => {
   var min = parseInt(s / 60)
   var segs = s % 60
   return ('0' + min).slice(-2) + ':' + ('0' + segs).slice(-2)
 })
-Vue.filter('moment', function (date, format) {
+Vue.filter('moment', (date, format) => {
   return Moment(date).format(format)
 })
-var Dev = false
 var dirServer = Dev ? 'https://' + window.location.hostname + ':3311' : window.location.origin
 dirServer = Storage.set('serverDir', dirServer)
 if (Storage.get('token')) {
@@ -71,7 +72,7 @@ const lan = Storage.get('lenguaje', 'es')
 const locales = locale.i18n
 Vue.config.lang = lan
 // set locales
-Object.keys(locales).forEach(function (lang) {
+Object.keys(locales).forEach((lang) => {
   Vue.locale(lang, locales[lang])
 })
 Vue.transition('entern', {
@@ -89,15 +90,38 @@ router.map({
   '/user': {
     name: 'user',
     component: {
-      template: '<div><router-view></router-view></div>'
+      template: '<div class="row"><router-view></router-view></div>'
     },
     subRoutes: {
-      '/': {
-        component: UserAccount
+      '/:username': {
+        component: UserAccount,
+        name: 'user',
+        subRoutes: {
+          '/': {
+            name: 'userdata',
+            component: UserData
+          },
+          '/activity': {
+            name: 'activity',
+            component (resolve) {
+            // cargar a demanda
+              require(['./components/user/account/activity'], resolve)
+            }
+          },
+          '/edit': {
+            name: 'edituser',
+            component (resolve) {
+            // cargar a demanda
+              require(['./components/user/register/'], resolve)
+            }
+          }
+        }
       },
       '/register': {
         name: 'register',
-        component: UserRegister
+        component (resolve) {
+          require(['./components/user/register/'], resolve)
+        }
       },
       '/loguin': {
         name: 'loguin',
@@ -118,14 +142,12 @@ router.map({
   '/game': {
     name: 'game',
     component (resolve) {
-    // cargar a demanda
       require(['./components/game/'], resolve)
     }
   },
   '/visor/:idBoard/:skip/:u1/:u2': {
     name: 'visor',
     component (resolve) {
-    // cargar a demanda
       require(['./components/boardVisor/'], resolve)
     }
   },

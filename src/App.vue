@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div>     
     <md-dropdown-list>
     <md-dropdown-item v-for="len in lenguajes" closing @click="changeLenguaje(len.value)">{{ len.label }}</md-dropdown-item>
 </md-dropdown-list>
@@ -13,11 +13,11 @@
     <md-nav-item @click="showInvitesGame()" v-if="user.user && $route.name!='game'">{{ $t("invites.title") }}</md-nav-item>
     <md-nav-item v-link="{name: 'visor',activeClass: 'active', params: board.boardParms}" v-if="user.user">{{ $t("visor.title") }}</md-nav-item>
     <md-nav-item v-link="{name: 'puzzle',activeClass: 'active'}" v-if="user.user">{{ $t("puzzles.title") }}</md-nav-item>    
-    <md-nav-item @click="openModal()">{{ $t("about.title") }}</md-nav-item>
-    <md-nav-item v-link="{name: 'user',activeClass: 'active'}" v-if="user.user">{{ $t("user.title") }}</md-nav-item>
+    <md-nav-item v-link="{name: 'user',activeClass: 'active', params: {username: user.user.username}}" v-if="user.user">{{ $t("user.title") }}</md-nav-item>
     <md-nav-item v-link="{name: 'loguin',activeClass: 'active'}" v-if="!user.user">{{ $t("user.login") }}</md-nav-item>
     <md-nav-item @click="logout()" v-if="user.user">{{ $t("user.logout") }}</md-nav-item>
 
+    <md-nav-item @click="openModal()">{{ $t("about.title") }}</md-nav-item>
     <md-nav-item href="javascript:void(0)" @click="openMenu($event)">
         {{lenguajeName}}<md-icon right>arrow_drop_down</md-icon>
     </md-nav-item>
@@ -34,7 +34,7 @@
       <img style=" width: 30%;left: 33%;" class="activator" src="./assets/2d.png">
     </div>
     <p>
-      <a href="#!">Leer más</a>
+      <a href="https://github.com/gustaYo/vue-chess">Leer más</a>
     </p>
     <div slot="reveal">
       <span class="card-title grey-text text-darken-4">
@@ -47,7 +47,6 @@
         <p>
           Vuejs, Nodejs, SocketIO, MongoDb y Webpack
         </p>
-
         <h5 class="flat-text-header hello">Desarrollador</h5>
         <p>
           Gustavo Crespo Sánchez gustayocs@gmail.com 2016
@@ -61,7 +60,7 @@
 </div>
     
   <div class="row">
-      <router-view class="animated" transition="entern"></router-view>
+      <router-view ></router-view>
   </div>
       </div>
    	  
@@ -111,6 +110,17 @@ export default {
     logout () {
       UserService.logout()
     },
+    testUser (next) {
+      if (Store.get('token')) {
+        UserService.testUser(this, {}).then(function (response) {
+          UserService.setUser(response.data)
+          next()
+        }, function (response) {
+          // next()
+          this.error = response.data
+        })
+      }
+    },
     userLoguinSocket () {
       if (this.user.user_acces()) {
         const data = {
@@ -135,11 +145,13 @@ export default {
   },
   sockets: {
     event (data) {
-      this.$broadcast(data.event, data.data)
+      this.$broadcast(data.event, data.data ? data.data : data)
     }
   },
   created () {
-    this.userLoguinSocket()
+    this.testUser(function () {
+      this.userLoguinSocket()
+    }.bind(this))
     this.getLenguajeName()
   },
   components: {

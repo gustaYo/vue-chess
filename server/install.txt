@@ -1,0 +1,5 @@
+apt-get install nodejs-legacy
+apt-get install mongodb
+
+// directorio raiz
+node server

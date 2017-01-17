@@ -3,5 +3,8 @@ module.exports = function(app, express, controllers) {
 	board.route('/filter')
 	.post(controllers.board.filterViews)
 
+	board.route('/stats')
+	 .get(controllers.board.stats)
+
 	app.use('/board', board);            
 };

@@ -9,7 +9,15 @@ exports = module.exports = function(mongoose) {
         created: {
             type: Date,
             default: Date.now
-        }
+        },
+        corrects: {
+            type: Number,
+            default: 0
+        },
+        intents: {
+            type: Number,
+            default: 0
+        }        
     });
     module.exports = mongoose.model('puzzles', PuzzleSchema);
 }

@@ -1,23 +1,25 @@
 process.on('message', function (data) {
 	switch (data.type) {
 		case 'setTimes':
-			times = data.data
+		times = data.data
 		break;
 		case 'getTimes':
-			process.send(times)
+		process.send(times)
 		break;
 		case 'contDown':
-			contDown(data.data)
+		contDown(data.data)
 		break;
 		case 'finish':
-			clearInterval(twhite)
-			clearInterval(tblack)
-			process.exit()
+		clearInterval(twhite)
+		clearInterval(tblack)
+		process.exit()
 		break;
 	}	
 })
 var tblack= 1;
 var twhite= 1;
+
+var lastTime = 0
 var  times= {
 	white: 1 * 60,
 	black: 1 * 60
@@ -52,4 +54,5 @@ var getTimes = function () {
 }
 var setTimes = function (newtimes) {
 	times= newtimes
+	lastTime = new Date().getTimes()
 }

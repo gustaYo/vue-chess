@@ -31,7 +31,11 @@ export default {
     return {
       chattext: '',
       mensjGame: [],
+      userWhite: {},
+      userBlack: {},
       user: UserService.getUser(),
+      usersConnect: [],
+      userconvert: Store.get('userconvert', {}),
       ground: 0,
       fen: 'none',
       orientation: 'white',
@@ -91,6 +95,25 @@ export default {
     }
   },
   methods: {
+    selectUserToConversation () {
+      const data = {
+        c: 'chat',
+        f: 'username',
+        data: {
+          user: this.user
+        }
+      }
+      setTimeout(function () {
+        this.$socket.emit('event', data, function (...callbacks) {
+          this.usersConnect = callbacks[1]
+          this.$broadcast('modal::open', 'usersConnect')
+        }.bind(this))
+      }.bind(this), 2)
+    },
+    userToConversation (user) {
+      this.userconvert = user
+      this.$broadcast('modal::close', 'some', 'usersConnect')
+    },
     recibeMensaje (men) {
       var idDiv = 'chatConvertGame'
       var divScroll = document.getElementById(idDiv)
@@ -120,10 +143,32 @@ export default {
         }, 1000)
       }.bind(this))
     },
+    imageUrl (name) {
+      return Store.get('serverDir') + '/uploads/' + name
+    },
+    loadOtherUser (otherUser, next) {
+      if (otherUser !== 'PC') {
+        UserService.get(this, otherUser).then(function (response) {
+          next(response.data)
+        }, function (response) {
+          // window.alert('mal')
+        })
+      } else {
+        next({
+          image: '50x50defaultAvatar.png'
+        })
+      }
+    },
     sendMensaje () {
-      var thisUser = UserService.getUser().username
+      if (this.chattext === '') {
+        return
+      }
+      var thisUser = this.user.username
       var otherUser = this.board.u1 === thisUser ? this.board.u2 : this.board.u1
-      if (otherUser === 'PC' || this.chattext === '') {
+      if (this.userconvert.username || this.userconvert.nickname) {
+        otherUser = this.userconvert.username || this.userconvert.nickname
+      }
+      if (otherUser === 'PC') {
         return
       }
       var men = {
@@ -179,7 +224,7 @@ export default {
       var t = chess.turn()
       var turn = (t === 'w') ? 'white' : 'black'
       this.boardGameTurn(turn)
-      turn = UserService.getUser().username === this.board.u2 ? 'black' : 'white'
+      turn = this.user.username === this.board.u2 ? 'black' : 'white'
       return turn
     },
     onMove (orig, dest) {
@@ -302,7 +347,7 @@ export default {
         this.board = board
         this.styleAdapter()
       }.bind(this))
-      var thisUser = UserService.getUser().username
+      var thisUser = this.user.username
       var otherUser = this.board.u1 === thisUser ? this.board.u2 : this.board.u1
       var parmsLoad = {
         user: otherUser,
@@ -312,48 +357,77 @@ export default {
         }
       }
       this.loadUserConvert(parmsLoad)
+      this.loadOtherUser(otherUser, function (someUser) {
+        this.userWhite = thisUser === this.board.u1 ? this.user : someUser
+        this.userBlack = thisUser === this.board.u2 ? this.user : someUser
+        if (!this.userconvert.username && someUser.username) {
+          this.userconvert = someUser
+        }
+      }.bind(this))
     },
     gameState (state = {}) {
       if (state.motiv) {
-        if (state.motiv === 'checkmate') {
-          return 'checkmate ' + Vue.t('game.wins') + ' ' + state.color
-        }
-        if (state.motiv === 'drawn_position') {
-          return 'drawn_position ' + Vue.t('game.wins') + ' ' + state.color
-        }
-        if (state.motiv === 'rendicion') {
-          return Vue.t('game.wins') + ' ' + state.color + ' ' + Vue.t('game.motives.rendi')
-        }
-        if (state.motiv === 'timeout') {
-          this.boardGameCountDown(0, state.color === 'white' ? 'black' : 'white')
-          return Vue.t('game.wins') + ' ' + state.color + ' ' + Vue.t('game.motives.time')
+        if (state.motiv) {
+          var retorn = ''
+          retorn = state.motiv + ' ' + Vue.t('game.wins') + ' ' + state.color
+          if (state.motiv === 'timeout') {
+            this.boardGameCountDown(0, state.color === 'white' ? 'black' : 'white')
+          }
+          return retorn
         }
       }
-      // checkmate?
-      if (this.chess.in_checkmate()) {
-        const result = {
-          color: this.turn === 'white' ? 'black' : 'white',
-          motiv: 'checkmate'
+      var gameOver = this.chess.game_over()
+      if (this.chess.in_check() && !gameOver) {
+        return Vue.t('game.check') + ' ' + Vue.t('home.createPart.' + this.turn)
+      }
+      if (gameOver) {
+        // is game over?
+        if (this.chess.in_checkmate()) {
+          const result = {
+            color: this.turn === 'white' ? 'black' : 'white',
+            motiv: 'checkmate'
+          }
+          this.gameFinish(result)
+          return
         }
-        this.gameFinish(result)
-        return
-      }
-      if (this.chess.in_draw()) {
-        const result = {
-          color: this.turn,
-          motiv: 'drawn_position'
+        if (this.chess.in_draw()) {
+          const result = {
+            color: 'draw',
+            motiv: 'drawn_position'
+          }
+          this.gameFinish(result)
+          return
         }
-        this.gameFinish(result)
-        return
+        if (this.chess.in_stalemate()) {
+          const result = {
+            color: this.turn === 'white' ? 'black' : 'white',
+            motiv: 'stalemate'
+          }
+          this.gameFinish(result)
+          return
+        }
+        if (this.chess.in_threefold_repetition()) {
+          const result = {
+            color: 'draw',
+            motiv: 'threefold_repetition'
+          }
+          this.gameFinish(result)
+          return
+        }
+        if (this.chess.insufficient_material()) {
+          const result = {
+            color: 'draw',
+            motiv: 'insufficient_material'
+          }
+          this.gameFinish(result)
+          return
+        }
       }
-      if (this.chess.in_check()) {
-        return this.turn + Vue.t('game.check')
-      }
-      return Vue.t('game.turnColor') + ' ' + this.turn
+      return Vue.t('game.turnColor') + ' ' + Vue.t('home.createPart.' + this.turn)
     },
     rendir () {
       const result = {
-        color: this.board.u1 === UserService.getUser().username ? 'black' : 'white',
+        color: this.board.u1 === this.user.username ? 'black' : 'white',
         motiv: 'rendicion'
       }
       this.gameFinish(result)
@@ -378,6 +452,7 @@ export default {
       this.active = false
       this.state = this.gameState(state.result)
       Store.del('board')
+      Store.del('userconvert')
       this.ground.stop()
       clearInterval(timesColor.black)
       clearInterval(timesColor.white)
@@ -386,7 +461,7 @@ export default {
   created () {
     Garbochess.ResetGame()
     setTimeout(function () {
-      this.orientation = UserService.getUser().username === this.board.u2 ? 'black' : 'white'
+      this.orientation = this.user.username === this.board.u2 ? 'black' : 'white'
       this.ground = Chessground(document.getElementById('tablerochess'), {
         viewOnly: false,
         turnColor: 'white',
@@ -426,51 +501,10 @@ export default {
     pgn (newVal, oldVal) {
       this.state = this.gameState()
       this.history = this.chess.history({ verbose: true })
+    },
+    userconvert (newVal, oldVal) {
+      Store.set('userconvert', newVal)
     }
   }
 }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .menText p{
-    text-align: justify;
-    -moz-hyphens: auto;
-    word-wrap: break-word;
-  }
-
-  .userTurn {
-    background-color: #D8B980;
-  }
-  .send-btn{
-    height: 60px;
-  }
-
-  .chessground.tiny {
-    width: 225px;
-    height: 225px;
-  }
-  .chessground.small {
-    width: 300px;
-    height: 300px;
-  }
-  .chessground.normal {
-    width: 512px;
-    height: 512px;
-  }
-  .cg-board-wrap svg {
-    opacity: 0.6;
-    overflow: hidden;
-    position: relative;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .cg-board-wrap svg * {
-    transition: 0.35s;
-  }
-</style>
-
-

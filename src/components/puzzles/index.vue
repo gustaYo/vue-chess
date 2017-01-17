@@ -5,18 +5,31 @@ import UserService from '../../services/user'
 import PuzzleService from '../../services/puzzle'
 import Chess from 'chess.js'
 import toast from 'vue-material-components'
+import Jquery from 'jquery'
 var groundInit = 1
 var groundFinish = 1
 export default {
   route: {
     canActivate: function (transition) {
       return UserService.user_acces('authenticate') ? true : transition.redirect('user/loguin')
+    },
+    data (transition) {
+      return Promise.all([
+        PuzzleService.count(this)
+      ]).then(function (data) {
+        const somedata = data[0].data
+        console.log(somedata)
+        return {
+          counts: somedata
+        }
+      }, function (response) {
+        window.alert('no se pudo contar')
+      })
     }
   },
   template: require('./template.html'),
   data () {
     return {
-      // 4Q2N/4q2k/2b4r/2pPBP2/2P3p1/5n2/1K4p1/7R
       user: UserService.getUser(),
       mode: 'add',
       fenInit: '',
@@ -37,6 +50,12 @@ export default {
           numMoves: 2,
           type: 'MateIn2',
           description: 'Las blancas ganan en 2 movimientos',
+          position: false
+        },
+        {
+          numMoves: 3,
+          type: 'MateIn3',
+          description: 'Las blancas ganan en 3 movimientos',
           position: false
         },
         {
@@ -65,6 +84,18 @@ export default {
     selectItm (item) {
       this.item = item
     },
+    nextPuzzle () {
+      var post = this.puzzles.indexOf(this.item)
+      if (post !== -1 && (post + 1) < this.puzzles.length) {
+        this.selectItm(this.puzzles[post + 1])
+      } else {
+        if (((post + 1) >= this.puzzles.length) && ((this.puzzlesType.indexOf(this.puzzleType) + 1) < this.puzzlesType.length)) {
+          this.selectPuzzleType(this.puzzlesType[this.puzzlesType.indexOf(this.puzzleType) + 1])
+        } else {
+          this.toast('<span>Ya no hay mas</span>', 2000)
+        }
+      }
+    },
     selectPuzzleType (puzzle) {
       this.puzzleType = puzzle
       var parms = {
@@ -72,6 +103,14 @@ export default {
       }
       PuzzleService.get(this, parms).then(function (response) {
         this.puzzles = response.data
+        setTimeout(function () {
+          if (this.puzzles.length > 0) {
+            this.selectItm(this.puzzles[0])
+          }
+          Jquery('#listSomePuzzles').animate({
+            'scrollTop': 0
+          }, 'slow')
+        }.bind(this), 400)
       }, function (response) {
         this.error = response.data
       })
@@ -160,11 +199,13 @@ export default {
       }.bind(this), 1000)
     },
     delPuzzle () {
-      PuzzleService.del(this, this.item._id).then(function (response) {
-        this.selectPuzzleType(this.puzzleType)
-      }, function (response) {
-        this.error = response.data
-      })
+      if (window.confirm('Seguro de eliminar')) {
+        PuzzleService.del(this, this.item._id).then(function (response) {
+          this.selectPuzzleType(this.puzzleType)
+        }, function (response) {
+          this.error = response.data
+        })
+      }
     }
   },
   watch: {

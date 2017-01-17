@@ -2,6 +2,7 @@
  * Off Canvas
  * --------------------------------------------------
  */
+
  @media screen and (max-width: 768px) {
   .row-offcanvas {
     position: relative !important;
@@ -60,9 +61,7 @@
 cursor: pointer;
  }
 
-  .item-select {
-    background-color: #B9D4CB;
-  }
+ 
 
 .popover {
   position: absolute;

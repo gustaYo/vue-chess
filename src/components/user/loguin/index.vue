@@ -1,16 +1,21 @@
 <template>
-
-	<div class="row" style="margin-left: 30%;margin-right: 30%;margin-top: 50px;">
+	<div class="col s12 m6 l4 loguinForm" style="">
 		<div class="col s12 card-panel center">    
      <form v-on:submit.prevent="userloguin()">
      <b v-show="error!==''">{{ $t("login.errors."+error) }}</b>     
 			<div class="row">    
-				<md-input name="username" :value.sync="user.username">
+				<md-input
+          name="username"
+          :value.sync="user.username"
+          >
 				{{ $t("login.username") }}
 				<template slot="icon-name">account_circle</template>
 			</md-input>
-
-			<md-input type="password" name="password" :value.sync="user.password" placeholder="password">
+			<md-input 
+        type="password"
+        name="password"
+        :value.sync="user.password"
+      >
 			{{ $t("login.password") }}
 			<template slot="icon-name">lock</template>
 		</md-input>
@@ -28,16 +33,14 @@
   </form>
 </div>
 </div>
-
 </template>
-
 <script>
 import UserService from '../../../services/user'
 import Storage from '../../../services/lstorage'
 export default {
   route: {
     canActivate: function (transition) {
-      return UserService.user_acces('authenticate') ? transition.redirect('home') : true
+      return UserService.user_acces('authenticate') ? transition.redirect('/home') : true
     }
   },
   data () {
@@ -64,10 +67,18 @@ export default {
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-	h1 {
-		color: #42b983;
-	}
+@-ms-viewport {
+  width: device-width;
+}
+ .loguinForm{
+  margin-left: 33% !important;
+ }
+@media screen and ( max-width: 782px ) {
+ .loguinForm{
+  margin-left: 2% !important;
+ }
+}
+
 </style>

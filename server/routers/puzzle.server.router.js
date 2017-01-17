@@ -5,6 +5,8 @@ module.exports = function(app, express, controllers) {
 
 	puzzle.route('/get')
 	.post(controllers.puzzle.get)
+	.get(controllers.puzzle.count)
+	.put(controllers.puzzle.resolve)
 
 	puzzle.route('/del/:parms')
 	.delete(controllers.puzzle.deletePuzzle);
