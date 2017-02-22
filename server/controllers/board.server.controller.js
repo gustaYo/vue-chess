@@ -180,9 +180,6 @@ exports.getBoards = () => {
 }
 var getTimesBoard = (idBoard) => {
 	timesBoards[idBoard].events.send({type: 'getTimes'})
-	timesBoards[idBoard].events.on('message',function(data){
-		timesBoards[idBoard].times = data
-	})
 }
 
 var timesBoards = {}
@@ -208,6 +205,9 @@ exports.getBoard = (io,socket,board,next) => {
 				data: timesBoards[board._id].times
 			}
 			timesBoards[board._id].events.send(someData)
+			timesBoards[board._id].events.on('message',function(data){
+				timesBoards[board._id].times = data
+			})
 		}
 		// empiezan siempre las blancas
 		getTimesBoard(board._id)
