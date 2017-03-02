@@ -367,14 +367,12 @@ export default {
     },
     gameState (state = {}) {
       if (state.motiv) {
-        if (state.motiv) {
-          var retorn = ''
-          retorn = state.motiv + ' ' + Vue.t('game.wins') + ' ' + state.color
-          if (state.motiv === 'timeout') {
-            this.boardGameCountDown(0, state.color === 'white' ? 'black' : 'white')
-          }
-          return retorn
+        var retorn = ''
+        retorn = state.motiv + ' ' + Vue.t('game.wins') + ' ' + state.color
+        if (state.motiv === 'timeout') {
+          this.boardGameCountDown(0, state.color === 'white' ? 'black' : 'white')
         }
+        return retorn
       }
       var gameOver = this.chess.game_over()
       if (this.chess.in_check() && !gameOver) {

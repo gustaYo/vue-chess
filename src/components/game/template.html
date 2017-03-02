@@ -33,8 +33,8 @@
 <a slot="secondary-content" href="javascript:void(0)"><md-icon>grade</md-icon></a>
 </md-collection-list-item>
 </md-collection-list>
- <md-btn v-else @mouseover="tooltip($event, 'Selecciona usuario para conversar', 'top')" class="waves-effect waves-light col s12 m12 l12" @click="selectUserToConversation">
-  Conversar con ...
+ <md-btn v-else @mouseover="tooltip($event, $t('game.chatConverTooltip'), 'top')" class="waves-effect waves-light col s12 m12 l12" @click="selectUserToConversation">
+   {{ $t("game.chatConver") }} ...
 </md-btn>
 
 </form>

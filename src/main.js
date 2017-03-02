@@ -1,4 +1,4 @@
-var Dev = true
+var Dev = false
 import Vue from 'vue'
 import App from './App'
 import Resource from 'vue-resource'

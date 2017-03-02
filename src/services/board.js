@@ -14,7 +14,7 @@ export default {
     return parms
   },
   boardParms: Storage.get('parmsBoard'),
-  setParms: (parms) => {
+  setParms (parms) {
     this.boardParms = parms
     Storage.set('parmsBoard', parms)
   }

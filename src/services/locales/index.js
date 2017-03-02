@@ -142,6 +142,8 @@ export default {
         title: 'Juego',
         chat: 'Chat del juego',
         rend: 'Rendir',
+        chatConverTooltip: 'Selecciona un usuario conectado',
+        chatConver: 'Conversar con',
         pieces: 'Piesas',
         board: 'Tablero',
         invert: 'Invertir',
@@ -304,6 +306,8 @@ export default {
       game: {
         title: 'Game',
         chat: 'Game´s chat',
+        chatConver: 'converse with',
+        chatConverTooltip: 'Select a user online',
         rend: 'surrend',
         pieces: 'Pieces',
         board: 'Board',
