@@ -37,6 +37,7 @@ export default {
       item: {
         num: 0
       },
+      counts: [],
       chess: new Chess(),
       puzzleType: {},
       puzzlesType: [

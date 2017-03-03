@@ -1,116 +1,133 @@
-<div class="col s12" >
-  <md-modal id="usersConnect">
-  <h4 style="text-align: center">Usuarios conectados</h4>
-<md-input name="search" :value.sync="finduser" >
-    Buscar usuario
-  </md-input>
-  <md-collection-list class="col s12 m12 l12">
-  <md-collection-list-item class="avatar" v-if="user.username !== u.nickname" v-for="u in usersConnect | filterBy finduser" @click="userToConversation(u)">
-  <img v-bind:src="imageUrl(u.image)" alt="" class="circle">
-  <span class="title">{{u.nickname}}</span>
-  <a slot="secondary-content" href="javascript:void(0)"><md-icon>grade</md-icon></a>
-</md-collection-list-item>
-</md-collection-list>
- 
-</md-modal>
+<div class="col s12">
+    <md-modal id="usersConnect">
+        <h4 style="text-align: center">Usuarios conectados</h4>
+        <md-input name="search" :value.sync="finduser">
+            Buscar usuario
+        </md-input>
+        <md-collection-list class="col s12 m12 l12">
+            <md-collection-list-item class="avatar" v-if="user.username !== u.nickname"
+                                     v-for="u in usersConnect | filterBy finduser" @click="userToConversation(u)">
+                <img v-bind:src="imageUrl(u.image)" alt="" class="circle">
+                <span class="title">{{u.nickname}}</span>
+                <a slot="secondary-content" href="javascript:void(0)">
+                    <md-icon>grade</md-icon>
+                </a>
+            </md-collection-list-item>
+        </md-collection-list>
 
-<div class="col s12 m12 l3">
-  <p style="text-align: center">{{ $t("game.chat") }}</p>
-  <div style="height: 65vh;overflow: auto" id="chatConvertGame">      
-    <body-men :mens="mensjGame" :dir-server="dirServer" :user="user"></body-men>
-  </div>
-  <form v-on:submit.prevent="sendMensaje()">
-    <md-input name="text" :value.sync="chattext" class="col s9 m9 l10">
-    {{ $t("game.text") }}
-  </md-input>
-  <md-btn @mouseover="tooltip($event, 'Enviar Mensaje', 'top')" class="btn waves-effect waves-light col s3 m3 l2 send-btn" type="submit">
-  S
-</md-btn>
-<md-collection-list class="col s12 m12 l12" @click="selectUserToConversation" v-if="userconvert.username || userconvert.nickname">
-<md-collection-list-item class="avatar" >
-<img v-bind:src="imageUrl(userconvert.image)" alt="" class="circle">
-<span class="title">{{userconvert.nickname || userconvert.username}}</span>
-<a slot="secondary-content" href="javascript:void(0)"><md-icon>grade</md-icon></a>
-</md-collection-list-item>
-</md-collection-list>
- <md-btn v-else @mouseover="tooltip($event, $t('game.chatConverTooltip'), 'top')" class="waves-effect waves-light col s12 m12 l12" @click="selectUserToConversation">
-   {{ $t("game.chatConver") }} ...
-</md-btn>
+    </md-modal>
 
-</form>
+    <div class="col s12 m12 l3">
+        <p style="text-align: center">{{ $t("game.chat") }}</p>
+        <div style="height: 65vh;overflow: auto" id="chatConvertGame">
+            <body-men :mens="mensjGame" :dir-server="dirServer" :user="user"></body-men>
+        </div>
+        <form v-on:submit.prevent="sendMensaje()">
+            <md-input name="text" :value.sync="chattext" class="col s9 m9 l10">
+                {{ $t("game.text") }}
+            </md-input>
+            <md-btn @mouseover="tooltip($event, 'Enviar Mensaje', 'top')"
+                    class="btn waves-effect waves-light col s3 m3 l2 send-btn" type="submit">
+                S
+            </md-btn>
+            <md-collection-list class="col s12 m12 l12" @click="selectUserToConversation"
+                                v-if="userconvert.username || userconvert.nickname">
+                <md-collection-list-item class="avatar">
+                    <img v-bind:src="imageUrl(userconvert.image)" alt="" class="circle">
+                    <span class="title">{{userconvert.nickname || userconvert.username}}</span>
+                    <a slot="secondary-content" href="javascript:void(0)">
+                        <md-icon>grade</md-icon>
+                    </a>
+                </md-collection-list-item>
+            </md-collection-list>
+            <md-btn v-else @mouseover="tooltip($event, $t('game.chatConverTooltip'), 'top')"
+                    class="waves-effect waves-light col s12 m12 l12" @click="selectUserToConversation">
+                {{ $t("game.chatConver") }} ...
+            </md-btn>
 
-</div>
-<div class="col s12 m12 l6">
-  <div id='tablerochess' style="width: 100%;height: 600px;" class="{{ stylesBoard['board'][styles['board']] }} chessground vuejs {{ stylesBoard['pieces'][styles['pieces']] }}"></div>
-</div>
-<div class="col s12 m12 l3">
-  <user-card :color="'white'" :username="userWhite" v-if="this.orientation === 'black'"></user-card>
-  <user-card :color="'black'" :username="userBlack" v-else></user-card>
-  <h6 class="flat-text-header hello" style="text-align: center">{{ state }}</h6>
-  <div class="col s12 m12 l12">    
-    <board-history :history="history" :active="active" :humanvspc="isHumanVsPC"></board-history>
-  </div>
-  <div  class="col s12 m12 l12">
-    <md-btn @mouseover="tooltip($event, 'Pieces', 'top')" class="waves-effect waves-light col s2 m2 l2" @click="changeStyle('pieces')">
-    P
-  </md-btn>
-  <md-btn @mouseover="tooltip($event, 'Board', 'top')" class="waves-effect waves-light col s2 m2 l2" @click="changeStyle('board')">
-  B
-</md-btn>
-<md-btn @mouseover="tooltip($event, 'Rendirse', 'top')" class="waves-effect waves-light col s4 m4 l4" @click="rendir()">
-{{ $t("game.rend") }}
-</md-btn>
-<md-btn @mouseover="tooltip($event, 'Cambiar orientacion', 'top')" class="waves-effect waves-light col s4 m4 l4" @click="changeOrientation">
-{{ $t("game.invert") }}
-</md-btn>
-</div>
-<user-card :color="'black'" :username="userBlack" v-if="this.orientation !== 'white'"></user-card>
-<user-card :color="'white'" :username="userWhite" v-else></user-card>
-</div>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+        </form>
 
-  .menText p{
-    text-align: justify;
-    -moz-hyphens: auto;
-    word-wrap: break-word;
-  }
+    </div>
+    <div class="col s12 m12 l6">
+        <div id='tablerochess' style="width: 100%;height: 600px;"
+             class="{{ stylesBoard['board'][styles['board']] }} chessground vuejs {{ stylesBoard['pieces'][styles['pieces']] }}"></div>
+    </div>
+    <div class="col s12 m12 l3">
+        <user-card :color="'white'" :username="userWhite" v-if="this.orientation === 'black'"></user-card>
+        <user-card :color="'black'" :username="userBlack" v-else></user-card>
+        <h6 class="flat-text-header hello" style="text-align: center">{{ state }}</h6>
+        <div class="col s12 m12 l12">
+            <board-history :history="history" :active="active" :humanvspc="isHumanVsPC"></board-history>
+        </div>
+        <div class="col s12 m12 l12">
+            <md-btn @mouseover="tooltip($event, 'Pieces', 'top')" class="waves-effect waves-light col s2 m2 l2"
+                    @click="changeStyle('pieces')">
+                P
+            </md-btn>
+            <md-btn @mouseover="tooltip($event, 'Board', 'top')" class="waves-effect waves-light col s2 m2 l2"
+                    @click="changeStyle('board')">
+                B
+            </md-btn>
+            <md-btn @mouseover="tooltip($event, 'Rendirse', 'top')" class="waves-effect waves-light col s4 m4 l4"
+                    @click="rendir()">
+                {{ $t("game.rend") }}
+            </md-btn>
+            <md-btn @mouseover="tooltip($event, 'Cambiar orientacion', 'top')"
+                    class="waves-effect waves-light col s4 m4 l4" @click="changeOrientation">
+                {{ $t("game.invert") }}
+            </md-btn>
+        </div>
+        <user-card :color="'black'" :username="userBlack" v-if="this.orientation !== 'white'"></user-card>
+        <user-card :color="'white'" :username="userWhite" v-else></user-card>
+    </div>
+    <!-- Add "scoped" attribute to limit CSS to this component only -->
+    <style scoped>
 
-  .userTurn {
-    background-color: #D8B980;
-  }
-  .send-btn{
-    height: 60px;
-  }
+        .menText p {
+            text-align: justify;
+            -moz-hyphens: auto;
+            word-wrap: break-word;
+        }
 
-  .chessground.tiny {
-    width: 225px;
-    height: 225px;
-  }
-  .chessground.small {
-    width: 300px;
-    height: 300px;
-  }
-  .chessground.normal {
-    width: 512px;
-    height: 512px;
-  }
-  .cg-board-wrap svg {
-    opacity: 0.6;
-    overflow: hidden;
-    position: relative;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .cg-board-wrap svg * {
-    transition: 0.35s;
-  }
-</style>
+        .userTurn {
+            background-color: #D8B980;
+        }
 
+        .send-btn {
+            height: 60px;
+        }
+
+        .chessground.tiny {
+            width: 225px;
+            height: 225px;
+        }
+
+        .chessground.small {
+            width: 300px;
+            height: 300px;
+        }
+
+        .chessground.normal {
+            width: 512px;
+            height: 512px;
+        }
+
+        .cg-board-wrap svg {
+            opacity: 0.6;
+            overflow: hidden;
+            position: relative;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .cg-board-wrap svg * {
+            transition: 0.35s;
+        }
+    </style>
 
 
 </div>

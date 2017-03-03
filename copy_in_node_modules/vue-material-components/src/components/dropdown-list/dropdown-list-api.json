@@ -1,0 +1,44 @@
+{
+  "name": "md-dropdown",
+  "title": "Dropdown",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "title",
+      "type": "String",
+      "required": false,
+      "description": "Title of dropdown button",
+      "twoWay": false,
+      "default": "\"\""
+    },
+    {
+      "name": "Value",
+      "type": "String",
+      "required": false,
+      "description": "Selected value",
+      "twoWay": null,
+      "default": "\"\""
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Dropdown items"
+    }
+  ],
+  "events": [
+    {
+      "name": "dropdown-list::open",
+      "description": "Event opens dropdown",
+      "type": "in"
+    },
+    {
+      "name": "dropdown-list::close",
+      "description": "Event closes dropdown",
+      "type": "in"
+    }
+  ]
+}

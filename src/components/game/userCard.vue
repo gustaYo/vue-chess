@@ -1,15 +1,16 @@
 <template>
   <div class="col s12 m12 l12 card-panel" v-bind:class="[turn === color ? 'userTurn' : '']">
-    <div  class="col s4 m4 l3">
+    <div class="col s4 m4 l3">
       <h4 class="flat-text-header">{{ time[color] | boardTime }}</h4>
     </div>
-    <div  class="col s4 m4 l6">
-     <p class="flat-text-header" style="float: right">{{ username.username || 'PC'}}</p>     
-   </div>
-   <div  class="col s4 m4 l3" v-show="username.image">
-    <img alt="" v-bind:src="imageUrl(username.image)" class="avatar avatar-50 photo avatar-default circle" height="60" width="60">
+    <div class="col s4 m4 l6">
+      <p class="flat-text-header" style="float: right">{{ username.username || 'PC'}}</p>
+    </div>
+    <div class="col s4 m4 l3" v-show="username.image">
+      <img alt="" v-bind:src="imageUrl(username.image)" class="avatar avatar-50 photo avatar-default circle" height="60"
+           width="60">
+    </div>
   </div>
-</div>
 </template>
 
 <script>

@@ -1,0 +1,32 @@
+<div :style="{overflow: revealSlot ? 'hidden' : 'initial'}"
+     :class="{small: small, medium: medium, large: large}"
+     class="md-card card">
+    <slot name="card-content">
+        <slot name="card-image">
+            <div v-if="imageSlot" class="card-image">
+                <slot name="image"></slot>
+                <div v-if="titleSlot && titleInImage" class="card-title">
+                    <slot name="title"></slot>
+                </div>
+            </div>
+        </slot>
+
+        <div class="card-content" :class="contentClass">
+            <div v-if="titleSlot && !titleInImage" class="card-title">
+                <slot name="title"></slot>
+            </div>
+            <slot></slot>
+        </div>
+
+        <slot name="card-action">
+            <div v-if="actionsSlot" class="card-action">
+                <slot name="actions"></slot>
+            </div>
+        </slot>
+
+        <div v-if="revealSlot" v-el:reveal class="card-reveal">
+            <i v-el:reveal-close class="material-icons right close">close</i>
+            <slot name="reveal"></slot>
+        </div>
+    </slot>
+</div>

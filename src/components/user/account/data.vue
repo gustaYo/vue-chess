@@ -1,15 +1,16 @@
 <template>
-<div>
-	<personal-data :user="user"></personal-data>
-<md-button 
-class="waves-effect waves-light" 
-v-if="thisuser.username === user.username"
-v-link="{name: 'edituser'}"
->
-    <md-icon right>cloud</md-icon>{{ $t("account.personalData.edit") }}
-</md-button>
+  <div>
+    <personal-data :user="user"></personal-data>
+    <md-button
+            class="waves-effect waves-light"
+            v-if="thisuser.username === user.username"
+            v-link="{name: 'edituser'}"
+    >
+      <md-icon right>cloud</md-icon>
+      {{ $t("account.personalData.edit") }}
+    </md-button>
 
-</div>
+  </div>
 </template>
 <script>
 import PersonalData from './personalData'

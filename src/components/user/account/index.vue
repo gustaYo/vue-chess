@@ -32,6 +32,7 @@ export default {
   },
   data () {
     return {
+      user: {},
       dirActionUpload: Storage.get('serverDir') + '/chat/upload',
       filesUpload: [],
       fileProgress: 0,

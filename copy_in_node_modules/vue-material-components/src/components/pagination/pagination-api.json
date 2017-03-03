@@ -1,0 +1,58 @@
+{
+  "name": "md-badge",
+  "title": "Badge",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "current-page",
+      "type": "Number",
+      "required": false,
+      "description": "Current selected page",
+      "twoWay": false,
+      "default": 0
+    },
+    {
+      "name": "page-size",
+      "type": "Number",
+      "required": true,
+      "description": "Page size",
+      "twoWay": false
+    },
+    {
+      "name": "total-records",
+      "type": "Number",
+      "description": "Total managed records",
+      "required": true,
+      "twoWay": false
+    },
+    {
+      "name": "display-pages",
+      "type": "Number",
+      "required": false,
+      "description": "Display pages count",
+      "default": 5,
+      "twoWay": false
+    },
+    {
+      "name": "item-class",
+      "type": "Object | Array",
+      "required": false,
+      "description": "Item classes object",
+      "default": null,
+      "twoWay": false
+    },
+    {
+      "name": "first-last",
+      "type": "Boolean",
+      "required": false,
+      "description": "Displays second pair of arrow for nagation to first or last page",
+      "default": false,
+      "twoWay": false
+    }
+  ],
+  "slots": [],
+  "events": []
+}

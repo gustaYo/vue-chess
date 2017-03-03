@@ -1,0 +1,33 @@
+{
+  "name": "md-tab",
+  "title": "Tab",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "active": "name",
+      "type": "String",
+      "required": false,
+      "description": "Name of tab used as id",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "active": "disabled",
+      "type": "Boolean",
+      "required": false,
+      "description": "Disable tab",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Tab content"
+    }
+  ],
+  "events": []
+}

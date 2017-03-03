@@ -1,13 +1,15 @@
 <template>
-        <div v-on:click="OpenInputFile"><slot></slot></div>
-        <input
+  <div v-on:click="OpenInputFile">
+    <slot></slot>
+  </div>
+  <input
           style="display: none"
           id="{{ id || name }}"
           type="file"
           name="{{ name }}"
           v-bind-boolean:multiple="multiple"
           @change="fileInputChange"
-        >
+  >
 </template>
 
 <script>

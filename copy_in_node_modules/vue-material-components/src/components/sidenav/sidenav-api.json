@@ -1,0 +1,49 @@
+{
+  "name": "md-badge",
+  "title": "Badge",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "active",
+      "type": "String",
+      "required": false,
+      "description": "Id of active item",
+      "twoWay": null,
+      "default": null
+    },
+    {
+      "name": "show-active",
+      "type": "Boolean",
+      "description": "Marks active (last clicked) item of nav",
+      "required": false,
+      "twoWay": false,
+      "default": "\"\""
+    },
+    {
+      "name": "close-on-click",
+      "type": "Boolean",
+      "description": "Closes side nav on after click.",
+      "required": false,
+      "twoWay": false,
+      "default": true
+    },
+    {
+      "name": "fixed",
+      "type": "Boolean",
+      "description": "Enables fixed mode (always opened)",
+      "required": false,
+      "default": false,
+      "twoWay": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Sidenav items"
+    }
+  ],
+  "events": []
+}

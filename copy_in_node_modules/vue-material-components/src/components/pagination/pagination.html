@@ -1,0 +1,17 @@
+<ul class="pagination">
+    <li :class="{disabled: currentPage == 0}">
+        <a v-if="firstLast" @click.prevent="currentPage = 0" href="#"><i class="material-icons">chevron_left</i></a>
+        <a @click.prevent="previousPage" href="#"><i class="material-icons">chevron_left</i></a>
+    </li>
+
+    <li v-for="n in pager"
+        @click.prevent="setCurrentPage(n)"
+        :class="getClasses(n)" v-wave-effect>
+        <a @click.prevent href="#">{{n + 1}}</a>
+    </li>
+
+    <li :class="{disabled: currentPage == pages - 1}">
+        <a @click.prevent="nextPage" href="#"><i class="material-icons">chevron_right</i></a>
+        <a v-if="firstLast" @click.prevent="currentPage = pages - 1" href="#"><i class="material-icons">chevron_right</i></a>
+    </li>
+</ul>

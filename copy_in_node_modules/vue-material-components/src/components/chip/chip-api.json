@@ -1,0 +1,33 @@
+{
+  "name": "md-chip",
+  "title": "Chip",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "closeable",
+      "type": "Boolean",
+      "required": false,
+      "description": "It can be closed if true",
+      "twoWay": false,
+      "default": false
+    },
+    {
+      "name": "closed",
+      "type": "Boolean",
+      "required": false,
+      "description": "State of closed",
+      "twoWay": null,
+      "default": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Content of chip"
+    }
+  ],
+  "events": []
+}

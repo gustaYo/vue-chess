@@ -1,29 +1,30 @@
 <template>
 
-<div class="col s12 m12 l12 ">
+  <div class="col s12 m12 l12 ">
 
     <ul class="history-board" style="height: 50vh;overflow: auto">
-      <li v-for="move in history" @click="moveToHistory($index)" class="col s6 m6 l6" style="padding: 0 0 !important" v-bind:class="[select === $index ? 'item-select' : '']">
+      <li v-for="move in history" @click="moveToHistory($index)" class="col s6 m6 l6" style="padding: 0 0 !important"
+          v-bind:class="[select === $index ? 'item-select' : '']">
         <span>
           <label v-if="$index % 2 ===0">{{ ($index/2)+1 }}.</label>
           <img alt="" v-bind:src="urlPiece(move)" height="25" width="25"><label>{{ move.from }}>{{ move.to }} {{ move.san }}</label>
-        </span>            
-      </li>     
+        </span>
+      </li>
     </ul>
     <div class="col s12 m12 l12" v-show="!active">
-     <md-button class="waves-effect waves-light col s2 m2 l2" @click="moveToHistory(select - 1)">
-     <<
-   </md-button>
-   <md-button class="waves-effect waves-light col s3 m3 l3" @click="play()">
-   {{ [played ? '||' : '>'] }}
- </md-button>
- <md-button class="waves-effect waves-light col s2 m2 l2" @click="moveToHistory(select + 1)">
- >>
-</md-button>
-<label class="col s1 m1 l1">{{velo}}</label>
-<input v-model="velo" type=range min=0 max=5 step=1 class="col s4 m4 l4">         
-</div>
-</div>
+      <md-button class="waves-effect waves-light col s2 m2 l2" @click="moveToHistory(select - 1)">
+        <<
+      </md-button>
+      <md-button class="waves-effect waves-light col s3 m3 l3" @click="play()">
+        {{ [played ? '||' : '>'] }}
+      </md-button>
+      <md-button class="waves-effect waves-light col s2 m2 l2" @click="moveToHistory(select + 1)">
+        >>
+      </md-button>
+      <label class="col s1 m1 l1">{{velo}}</label>
+      <input v-model="velo" type=range min=0 max=5 step=1 class="col s4 m4 l4">
+    </div>
+  </div>
 
 </template>
 

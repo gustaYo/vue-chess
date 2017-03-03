@@ -1,0 +1,78 @@
+{
+  "name": "md-modal",
+  "title": "Modal",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "id",
+      "type": "String",
+      "required": false,
+      "description": "Id of modal",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "result",
+      "type": "String",
+      "required": false,
+      "description": "Result of modal close",
+      "twoWay": null,
+      "default": null
+    },
+    {
+      "name": "class",
+      "type": "String",
+      "required": false,
+      "description": "Css class",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "bottom",
+      "type": "Boolean",
+      "required": false,
+      "description": "Bottom dialog mode",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Modal content"
+    },
+    {
+      "name": "footer",
+      "description": "Modal footer content"
+    },
+    {
+      "name": "content",
+      "description": "Full content - modal body and footer"
+    }
+  ],
+  "events": [
+    {
+      "name": "modal::open",
+      "description": "Event opens modal",
+      "type": "in"
+    },
+    {
+      "name": "modal::close",
+      "description": "Event closes modal and is fired on close",
+      "type": "in",
+      "args": [
+        {
+          "name": "result",
+          "description": "Result of close"
+        },
+        {
+          "name": "id",
+          "description": "Modal id to close"
+        }
+      ]
+    }
+  ]
+}

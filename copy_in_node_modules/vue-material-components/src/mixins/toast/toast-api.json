@@ -1,0 +1,47 @@
+{
+  "name": "toast",
+  "title": "Toast",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "tags": [
+    "Mixin"
+  ],
+  "properties": [
+    {
+      "name": "message",
+      "type": "String",
+      "required": true,
+      "description": "Message of tooltip",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "displayLength",
+      "type": "Number",
+      "required": false,
+      "description": "Duration how long is toast displayed in ms",
+      "twoWay": false,
+      "default": 4000
+    },
+    {
+      "name": "className",
+      "type": "String",
+      "required": false,
+      "description": "Classes passed to rendered toast",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "completeCallback",
+      "type": "Function",
+      "required": false,
+      "description": "On complete call back",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [],
+  "events": []
+}

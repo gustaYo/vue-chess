@@ -1,0 +1,45 @@
+{
+  "name": "md-dropdown",
+  "title": "Dropdown",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "closing",
+      "type": "Boolean",
+      "required": false,
+      "description": "Click on item automatically close dropdown",
+      "twoWay": false,
+      "default": true
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "required": false,
+      "description": "Name of item used for identification (name or uid, if name is not present)",
+      "twoWay": false,
+      "default": "\"\""
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Item content"
+    }
+  ],
+  "events": [
+    {
+      "name": "dropdown-item::selected",
+      "description": "Selected item id (name or uid)",
+      "type": "out",
+      "args": [
+        {
+          "name": "id",
+          "description": "Selected item id"
+        }
+      ]
+    }
+  ]
+}

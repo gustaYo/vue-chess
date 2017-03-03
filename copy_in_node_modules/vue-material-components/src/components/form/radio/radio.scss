@@ -1,0 +1,15 @@
+.md-radio.with-gap [type="radio"]:checked+label:before {
+  border-radius: 50%;
+  border: 2px solid #26a69a;
+}
+
+.md-radio.with-gap [type="radio"]:checked+label:after {
+  border-radius: 50%;
+  border: 2px solid #26a69a;
+  background-color: #26a69a;
+  z-index: 0;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+// todo collors sass

@@ -1,0 +1,6 @@
+<button :class="computedClasses" v-bind-boolean:disabled="disabled" v-wave-effect class="md-button">
+    <md-icon v-if="icon" :right="iconAlignRight" :left="!iconAlignRight">
+        {{icon}}
+    </md-icon>
+    <slot></slot>
+</button>

@@ -109,11 +109,28 @@ export default {
           fenFinish: 'Posición final'
         },
         list: 'Listado',
-        mate1descript: 'Las blancas ganan en un movimiento',
-        mate2descript: 'Las blancas ganan en 2 movimientos',
-        mate3descript: 'Las blancas ganan en 3 movimientos',
-        findFork: 'Find white move that results in fork',
-        takePiece: 'One of Black pieces is undefended. Take it',
+        types: {
+          MateIn1: {
+            name: 'Mate en 1',
+            descript: 'Las blancas ganan en un movimiento'
+          },
+          MateIn2: {
+            name: 'Mate en 2',
+            descript: 'Las blancas ganan en dos movimientos'
+          },
+          MateIn3: {
+            name: 'Mate en 3',
+            descript: 'Las blancas ganan en tres movimientos'
+          },
+          FindFork: {
+            name: 'Encontrar tenedor',
+            descript: 'Buscar movimiento blanco que da como resultado un tenedor'
+          },
+          TakePiece: {
+            name: 'Toma una pieza',
+            descript: 'Una de las piezas negras no está defendida. Tómala'
+          }
+        },
         attention: 'Atención',
         attMen: 'Selecciona un tipo de puzzle a resolver',
         createBy: 'Creado por',
@@ -175,7 +192,7 @@ export default {
         errors: {
           user_not_found: 'user not found',
           passw_incorrect: 'Incorrect password',
-          consultando: 'Consultando'
+          consultando: 'Consulting'
         }
       },
       register: {
@@ -184,18 +201,18 @@ export default {
         password: 'Password',
         name: 'Name',
         email: 'Email',
-        firstName: 'Primer Apellido',
-        lastName: 'Segundo Apellido',
+        firstName: 'Surname',
+        lastName: 'Second surname',
         insert: 'Insert',
         cancel: 'Cancel',
-        mascul: 'Masculino',
-        femen: 'Femenino',
+        mascul: 'Male',
+        femen: 'Female',
         age: 'Age',
-        passwordRepit: 'Repetir Password',
+        passwordRepit: 'Repeat Password',
         errors: {
-          user_not_found: 'Usuario no encontrado',
-          passw_incorrect: 'Contraseña incorrecta',
-          consultando: 'Consultando'
+          user_not_found: 'User not found',
+          passw_incorrect: 'Incorrect password',
+          consultando: 'Consulting'
         }
       },
       account: {
@@ -225,46 +242,46 @@ export default {
         upload: 'File',
         invite: 'Invite',
         send: 'Send',
-        inviteSend: 'invitación de juego enviada',
+        inviteSend: 'Game invitation sent',
         createPart: {
-          title: 'Crear partida',
-          time: 'Tiempo minutos',
-          type: 'Tipo partida',
-          create: 'Crear',
-          cancel: 'Cancelar',
-          black: 'Negras',
-          white: 'Blancas',
-          timePersonal: 'Establecer tiempo',
-          fieldTime: 'Tiempo',
-          public: 'Publica',
-          private: 'Privada'
+          title: 'Create match',
+          time: 'Time minutes',
+          type: 'Match type',
+          create: 'Create',
+          cancel: 'Cancel',
+          black: 'Black',
+          white: 'White',
+          timePersonal: 'Personal time',
+          fieldTime: 'Time',
+          public: 'public',
+          private: 'private'
         },
         uploadMens: {
-          success: 'Archivos subidos correctamente',
-          path_not_permit: 'Extención de archivo no permitida',
-          size_not_permit: 'Excede tamaño permitido'
+          success: 'Files Uploaded Correctly',
+          path_not_permit: 'File extension not allowed',
+          size_not_permit: 'Exceeds allowed size'
         }
       },
       invites: {
         title: 'Invitations',
         numIn: 'Users invitations',
-        vspc: 'Jugar contra la PC',
-        initgame: 'Iniciando juego'
+        vspc: 'Play against PC',
+        initgame: 'Starting game'
       },
       visor: {
-        title: 'Visor',
+        title: 'Viewer',
         found: 'Found',
         whiteName: 'White name',
         blackName: 'Black name',
         result: 'Result',
         wins: 'Wins',
-        by: 'por'
+        by: 'by'
       },
       puzzles: {
         title: 'Puzzles',
         create: {
           title: 'Created a Puzzle',
-          description: 'Adiciona y comparte un puzzle retador',
+          description: 'Add and share a challenging puzzle',
           create: 'Created',
           delete: 'Delete',
           edit: 'Edit',
@@ -273,18 +290,35 @@ export default {
           fenInit: 'Initial position',
           fenFinish: 'Finish position '
         },
-        list: 'Listado',
-        mate1descript: 'White is to begin and checkmate in one move',
-        mate2descript: 'White is to begin and checkmate in two move',
-        mate3descript: 'White is to begin and checkmate in three move',
-        findFork: 'Find white move that results in fork',
-        takePiece: 'One of Black pieces is undefended. Take it',
-        attention: 'Atención',
+        list: 'List',
+        types: {
+          MateIn1: {
+            name: 'Mate in 1',
+            descript: 'White wins in one move'
+          },
+          MateIn2: {
+            name: 'Mate in 2',
+            descript: 'White wins in two moves'
+          },
+          MateIn3: {
+            name: 'Mate in 3',
+            descript: 'White wins in three moves'
+          },
+          FindFork: {
+            name: 'FindFork',
+            descript: 'Find white move that results in fork'
+          },
+          TakePiece: {
+            name: 'TakePiece',
+            descript: 'Find white move that results in fork'
+          }
+        },
+        attention: 'Attention',
         attMen: 'Select the puzzle to resolver',
         createBy: 'Create by',
         date: 'Date',
         played: 'Played',
-        movs: 'Movimientos restantes',
+        movs: 'Remaining moves',
         wins: 'Wins',
         lost: 'Lost',
         reintent: 'Reintent',
@@ -297,10 +331,10 @@ export default {
       about: {
         title: 'About',
         description: 'About app',
-        namegame: 'Juego de ajedrez en línea',
+        namegame: 'Online chess game',
         seemore: 'Read more',
-        des: 'Juego de ajedrez multijugador online que te permitirá enfrentarte a otros jugadores en tiempo real y al propio computador. Resuelve los puzzles y crea otros nuevos.',
-        tecn: 'technology',
+        des: 'Online multiplayer chess game that will allow you to face other players in real time and the computer itself. Solve puzzles and create new ones.',
+        tecn: 'Technologies',
         dev: 'Developed'
       },
       game: {

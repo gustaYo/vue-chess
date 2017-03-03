@@ -1,0 +1,20 @@
+{
+  "name": "md-collection",
+  "title": "Collection",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "",
+      "description": "Content of collection items"
+    },
+    {
+      "name": "header",
+      "description": "Header of collection"
+    }
+  ],
+  "slots": [],
+  "events": []
+}

@@ -1,0 +1,23 @@
+{
+  "name": "md-radio-group",
+  "title": "Radio group",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "group",
+      "type": "String",
+      "required": true,
+      "description": "Radio group name"
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Content"
+    }
+  ],
+  "events": []
+}

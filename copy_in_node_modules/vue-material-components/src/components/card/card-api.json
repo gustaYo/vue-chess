@@ -1,0 +1,90 @@
+{
+  "name": "md-card",
+  "title": "Card",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "type",
+      "type": "String",
+      "description": "Button type css class",
+      "twoWay": false,
+      "required": false,
+      "default": null
+    },
+    {
+      "name": "content-class",
+      "type": "any",
+      "description": "Bind classes to content",
+      "twoWay": false,
+      "required": false,
+      "default": null
+    },
+    {
+      "name": "title-in-image",
+      "type": "Boolean",
+      "description": "Title is in image if true",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "small",
+      "type": "Boolean",
+      "description": "Adds small class if true",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "medium",
+      "type": "Boolean",
+      "required": false,
+      "description": "Adds medium class if true",
+      "twoWay": false,
+      "default": false
+    },
+    {
+      "name": "large",
+      "type": "Boolean",
+      "required": false,
+      "description": "Adds large class if true",
+      "twoWay": false,
+      "default": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Content part of card"
+    },
+    {
+      "name": "card-content",
+      "description": "Card whole content, it replaces all (wraps all slots)"
+    },
+    {
+      "name": "card-image",
+      "description": "Image part of card (wraps image slot)"
+    },
+    {
+      "name": "image",
+      "description": "Actual image of card"
+    },
+    {
+      "name": "title",
+      "description": "Title of card. Rendered in image or content"
+    },
+    {
+      "name": "actions",
+      "description": "Action part of card"
+    },
+    {
+      "name": "reveal",
+      "description": "Reveal part of card"
+    }
+  ],
+  "events": [],
+  "uses": {}
+}

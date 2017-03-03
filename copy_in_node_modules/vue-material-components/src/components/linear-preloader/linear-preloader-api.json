@@ -1,0 +1,20 @@
+{
+  "name": "md-linear-preloader",
+  "title": "Linear preloader",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "value",
+      "type": "Number",
+      "required": false,
+      "description": "Percents of progress. Default null is indeterminate",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [],
+  "events": []
+}

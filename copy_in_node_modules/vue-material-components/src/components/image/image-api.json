@@ -1,0 +1,44 @@
+{
+  "name": "md-image",
+  "title": "Image",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "src",
+      "type": "String",
+      "required": true,
+      "description": "Image source",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "caption",
+      "type": "String",
+      "description": "Image caption",
+      "required": false,
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "height",
+      "type": "String",
+      "description": "Image height",
+      "required": false,
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "width",
+      "type": "String",
+      "description": "Image width",
+      "required": false,
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [],
+  "events": []
+}

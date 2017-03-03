@@ -1,190 +1,210 @@
-
 <div class="col s12">
- <div class="col s12 m12 l3">
-  <md-collapsible>
-  <md-collapsible-item name="one" expanded>
-  <div slot="header">
-    <md-icon>message_black</md-icon>{{ $t("home.online") }}
-  </div>
-  <div slot="body" style="max-height: 70vh;overflow: auto">
-    <md-input name="search" v-if="users.length>20" :value.sync="finduser" >
-    Buscar usuario
-  </md-input>
-  <md-collection-list class="col s12 m12 l12">
-  <md-collection-list-item class="avatar" v-for="online in users | filterBy finduser" @click="openTab(online)" v-show="online.id !== user._id">
-  <img v-bind:src="imageUrl(online.image)" alt="" class="circle">
-  <span class="title">{{ online.nickname }}</span>
-  <a slot="secondary-content" href="javascript:void(0)">
-    <img  class="role-piece" src="../../../static/images/pieces/staunton/basic/White-Bishop.png" alt="">
-  </a>
-</md-collection-list-item>
-</md-collection-list>
+    <div class="col s12 m12 l3">
+        <md-collapsible>
+            <md-collapsible-item name="one" expanded>
+                <div slot="header">
+                    <md-icon>message_black</md-icon>
+                    {{ $t("home.online") }}
+                </div>
+                <div slot="body" style="max-height: 70vh;overflow: auto">
+                    <md-input name="search" v-if="users.length>20" :value.sync="finduser">
+                        Buscar usuario
+                    </md-input>
+                    <md-collection-list class="col s12 m12 l12">
+                        <md-collection-list-item class="avatar" v-for="online in users | filterBy finduser"
+                                                 @click="openTab(online)" v-show="online.id !== user._id">
+                            <img v-bind:src="imageUrl(online.image)" alt="" class="circle">
+                            <span class="title">{{ online.nickname }}</span>
+                            <a slot="secondary-content" href="javascript:void(0)">
+                                <img class="role-piece"
+                                     src="../../../static/images/pieces/staunton/basic/White-Bishop.png" alt="">
+                            </a>
+                        </md-collection-list-item>
+                    </md-collection-list>
 
-</div>
-</md-collapsible-item>
-<md-collapsible-item name="two">
-<div slot="header">
-  <md-icon>grid_on_black</md-icon>{{ $t("home.played") }}
-</div>
-<div slot="body">
-  <div slot="body" style="max-height: 70vh;overflow: auto">
-    <md-collection>
-    <md-collection-item v-for="game in boards" @click="showBoard(game)">
-    <span class="title"> {{ game.u1 }} <img style="height: 25px;" src="../../../static/images/pieces/merida/wQ.svg" alt=""> VS <img style="height: 25px;" src="../../../static/images/pieces/merida/bQ.svg" alt=""> {{ game.u2 }}</span>
-  </md-collection-item>
-</md-collection>
-</div>
-</div>
-</md-collapsible-item>   
-</md-collapsible>
-</div>
-<div class="col s12 m12 l9">
- <md-tabs :active.sync="active" class="z-depth-1" v-show="tabs.length > 0 && active !== 'boardVisor'">
- <md-tab :name.sync="tabconver.idTab" v-link="{path: '/home'}" class="s4" v-for="tabconver in tabs">
- <a>{{ tabconver.name }} <label class="close-tab" @click="closeTab(tabconver.idTab)">&#10007;</label></a>
-</md-tab>
-<div slot="contents">
-  <div v-for="tabconver in tabs" id="content_{{ tabconver.idTab }}" v-show="active == tabconver.idTab" class="tabConvert" v-on:scroll="userScroll">
-    <body-men :mens="tabconver.men" :dir-server="dirServer" :user="user"></body-men>
-  </div>
-  <div class="row s12 m12 l12">
-    <form v-on:submit.prevent="sendMensaje()">
-      <div class="col s12 m12 l12">
-        <md-linear-preloader :value="fileProgress" v-if="!allFilesUploaded"></md-linear-preloader>
-        <label style="position: relative;float: right;top: -15px" v-if="!allFilesUploaded">{{ fileProgress }}</label>
-        <upload-files
-        :value.sync="filesUpload"
-        name="files"
-        multiple
-        :action="dirActionUpload"
-        maxsize="20MB"
-        pathpermit="|jpeg|mp4|zip|rar|png|pdf|doc|docx|ppt|pptx|webm|txt"
-        >
-        <a class="btn waves-effect waves-light col s3 m3 l3"  @mouseover="tooltip($event, 'Compartir archivo', 'top')">
-         {{ $t("home.upload") }}
-       </a>
-     </upload-files>
-     <a class="btn waves-effect waves-light col s3 m3 l3" @click="inviteChessGame()" @mouseover="tooltip($event, 'Invitar a partida', 'top')">
-      {{ $t("home.invite") }}
-    </a>
-  </div>
-  <md-input name="text" :value.sync="chattext" class="col s9 m9 l10">
-  Texto      
-</md-input>
-<md-btn class="btn waves-effect waves-light col s3 m3 l2 send-btn" type="submit">
-{{ $t("home.send") }}
-</md-btn>
-</form>
-</div>
-</div>
-</md-tabs>
-<board-visor v-show="active === 'boardVisor'" :board="board"></board-visor>
-<md-modal id="inviteGame">
-<h4 style="text-align: center">{{ $t("home.createPart.title") }}</h4>
-<div class="col s12 m12 l12">
- <div class="col s6 m4 l4">
-  <p class="flat-text-header hello">{{ $t("home.createPart.title") }}</p>
-  <md-radio-group group="color" class="col s6">
-  <md-radio :value.sync="newboard.color" radio-value="w" class="with-gap">
-  {{ $t("home.createPart.white") }}
-</md-radio>
-<md-radio :value.sync="newboard.color" radio-value="b" class="with-gap">
-{{ $t("home.createPart.black") }}
-</md-radio>
-</md-radio-group>
-</div>
-<div class="col s6 m4 l4">
+                </div>
+            </md-collapsible-item>
+            <md-collapsible-item name="two">
+                <div slot="header">
+                    <md-icon>grid_on_black</md-icon>
+                    {{ $t("home.played") }}
+                </div>
+                <div slot="body">
+                    <div slot="body" style="max-height: 70vh;overflow: auto">
+                        <md-collection>
+                            <md-collection-item v-for="game in boards" @click="showBoard(game)">
+                                <span class="title"> {{ game.u1 }} <img style="height: 25px;"
+                                                                        src="../../../static/images/pieces/merida/wQ.svg"
+                                                                        alt=""> VS <img style="height: 25px;"
+                                                                                        src="../../../static/images/pieces/merida/bQ.svg"
+                                                                                        alt=""> {{ game.u2 }}</span>
+                            </md-collection-item>
+                        </md-collection>
+                    </div>
+                </div>
+            </md-collapsible-item>
+        </md-collapsible>
+    </div>
+    <div class="col s12 m12 l9">
+        <md-tabs :active.sync="active" class="z-depth-1" v-show="tabs.length > 0 && active !== 'boardVisor'">
+            <md-tab :name.sync="tabconver.idTab" v-link="{path: '/home'}" class="s4" v-for="tabconver in tabs">
+                <a>{{ tabconver.name }} <label class="close-tab" @click="closeTab(tabconver.idTab)">&#10007;</label></a>
+            </md-tab>
+            <div slot="contents">
+                <div v-for="tabconver in tabs" id="content_{{ tabconver.idTab }}" v-show="active == tabconver.idTab"
+                     class="tabConvert" v-on:scroll="userScroll">
+                    <body-men :mens="tabconver.men" :dir-server="dirServer" :user="user"></body-men>
+                </div>
+                <div class="row s12 m12 l12">
+                    <form v-on:submit.prevent="sendMensaje()">
+                        <div class="col s12 m12 l12">
+                            <md-linear-preloader :value="fileProgress" v-if="!allFilesUploaded"></md-linear-preloader>
+                            <label style="position: relative;float: right;top: -15px" v-if="!allFilesUploaded">{{
+                                fileProgress }}</label>
+                            <upload-files
+                                    :value.sync="filesUpload"
+                                    name="files"
+                                    multiple
+                                    :action="dirActionUpload"
+                                    maxsize="20MB"
+                                    pathpermit="|jpeg|mp4|zip|rar|png|pdf|doc|docx|ppt|pptx|webm|txt"
+                            >
+                                <a class="btn waves-effect waves-light col s3 m3 l3"
+                                   @mouseover="tooltip($event, 'Compartir archivo', 'top')">
+                                    {{ $t("home.upload") }}
+                                </a>
+                            </upload-files>
+                            <a class="btn waves-effect waves-light col s3 m3 l3" @click="inviteChessGame()"
+                               @mouseover="tooltip($event, 'Invitar a partida', 'top')">
+                                {{ $t("home.invite") }}
+                            </a>
+                        </div>
+                        <md-input name="text" :value.sync="chattext" class="col s9 m9 l10">
+                            Texto
+                        </md-input>
+                        <md-btn class="btn waves-effect waves-light col s3 m3 l2 send-btn" type="submit">
+                            {{ $t("home.send") }}
+                        </md-btn>
+                    </form>
+                </div>
+            </div>
+        </md-tabs>
+        <board-visor v-show="active === 'boardVisor'" :board="board"></board-visor>
+        <md-modal id="inviteGame">
+            <h4 style="text-align: center">{{ $t("home.createPart.title") }}</h4>
+            <div class="col s12 m12 l12">
+                <div class="col s6 m4 l4">
+                    <p class="flat-text-header hello">{{ $t("home.createPart.title") }}</p>
+                    <md-radio-group group="color" class="col s6">
+                        <md-radio :value.sync="newboard.color" radio-value="w" class="with-gap">
+                            {{ $t("home.createPart.white") }}
+                        </md-radio>
+                        <md-radio :value.sync="newboard.color" radio-value="b" class="with-gap">
+                            {{ $t("home.createPart.black") }}
+                        </md-radio>
+                    </md-radio-group>
+                </div>
+                <div class="col s6 m4 l4">
 
-  <div class="row s12 m12 l12">
-    <p class="flat-text-header hello">{{ $t("home.createPart.time") }}</p>
-    <div class="col s12 m12 l12"  v-if="!timePersonal">
+                    <div class="row s12 m12 l12">
+                        <p class="flat-text-header hello">{{ $t("home.createPart.time") }}</p>
+                        <div class="col s12 m12 l12" v-if="!timePersonal">
 
-      <md-radio-group group="time">
-      <md-radio :value.sync="newboard.time" :radio-value="1" class="with-gap" >
-      1
-    </md-radio>
-    <md-radio :value.sync="newboard.time" :radio-value="3" class="with-gap" >
-    3
-  </md-radio>
-  <md-radio :value.sync="newboard.time" :radio-value="5" class="with-gap" >
-  5
-</md-radio>  
-</md-radio-group>
-</div>
-<div class="col s12">
-  <md-checkbox :value.sync="timePersonal">
-  {{ $t("home.createPart.timePersonal") }}
-</md-checkbox>
-<md-input v-if="timePersonal" :value.sync="newboard.time" type="number" :number="true" class="col s12">
-{{ $t("home.createPart.fieldTime") }}
-</md-input>
-</div>
-</div>
+                            <md-radio-group group="time">
+                                <md-radio :value.sync="newboard.time" :radio-value="1" class="with-gap">
+                                    1
+                                </md-radio>
+                                <md-radio :value.sync="newboard.time" :radio-value="3" class="with-gap">
+                                    3
+                                </md-radio>
+                                <md-radio :value.sync="newboard.time" :radio-value="5" class="with-gap">
+                                    5
+                                </md-radio>
+                            </md-radio-group>
+                        </div>
+                        <div class="col s12">
+                            <md-checkbox :value.sync="timePersonal">
+                                {{ $t("home.createPart.timePersonal") }}
+                            </md-checkbox>
+                            <md-input v-if="timePersonal" :value.sync="newboard.time" type="number" :number="true"
+                                      class="col s12">
+                                {{ $t("home.createPart.fieldTime") }}
+                            </md-input>
+                        </div>
+                    </div>
 
-</div>
+                </div>
 
-<div class="col s6 m4 l4">
-  <p class="flat-text-header hello">{{ $t("home.createPart.type") }}</p>
-  <md-switch :value.sync="newboard.public" disabled>
-  <span slot="on">{{ $t("home.createPart.public") }}</span>
-  <span slot="off">{{ $t("home.createPart.private") }}</span>
-</md-switch>
-</div>
-</div>
+                <div class="col s6 m4 l4">
+                    <p class="flat-text-header hello">{{ $t("home.createPart.type") }}</p>
+                    <md-switch :value.sync="newboard.public" disabled>
+                        <span slot="on">{{ $t("home.createPart.public") }}</span>
+                        <span slot="off">{{ $t("home.createPart.private") }}</span>
+                    </md-switch>
+                </div>
+            </div>
 <span slot="footer">
   <md-button href="#" class="waves-effect waves-green btn-flat"
-  @click="createdInviteGame(true)">
+             @click="createdInviteGame(true)">
   {{ $t("home.createPart.create") }}
 </md-button>
 <md-button href="#" class="waves-effect waves-green btn-flat"
-@click="createdInviteGame(false)">
+           @click="createdInviteGame(false)">
 {{ $t("home.createPart.cancel") }}
 </md-button>
 </span>
-</md-modal>
-</div>
-<style scoped>
-  .collection .collection-item.avatar {
-    min-height: 60px !important;
-  }
-  .role-piece{
-    height: 60px;
-    position: relative;
-    top: -15px;
-  }
-  .imageShow {
-    position: fixed;
-    z-index: 2;
-    left: 10%;
-    width: 80%;
-    top: 10px;
-  }
-  .menText p{
-    text-align: justify;
-    -moz-hyphens: auto;
-    word-wrap: break-word;
-  }
+        </md-modal>
+    </div>
+    <style scoped>
+        .collection .collection-item.avatar {
+            min-height: 60px !important;
+        }
 
-  .send-btn{
-    height: 60px;
-  }
-  .close-tab {
-    font-size: x-large;
-  }
-  .close-tab:hover{
-    color: #9E1D1D;
-  }
-  .collection-item:hover {
-    background-color: #b1a58b !important;
-    border-bottom: 3px solid #dcdfe2;
-  }
-  .tabConvert{    
-    height: 60vh;
-    overflow: auto;
-  }
-  .popover {
-    z-index: 0; 
-  }
-</style>
+        .role-piece {
+            height: 60px;
+            position: relative;
+            top: -15px;
+        }
+
+        .imageShow {
+            position: fixed;
+            z-index: 2;
+            left: 10%;
+            width: 80%;
+            top: 10px;
+        }
+
+        .menText p {
+            text-align: justify;
+            -moz-hyphens: auto;
+            word-wrap: break-word;
+        }
+
+        .send-btn {
+            height: 60px;
+        }
+
+        .close-tab {
+            font-size: x-large;
+        }
+
+        .close-tab:hover {
+            color: #9E1D1D;
+        }
+
+        .collection-item:hover {
+            background-color: #b1a58b !important;
+            border-bottom: 3px solid #dcdfe2;
+        }
+
+        .tabConvert {
+            height: 60vh;
+            overflow: auto;
+        }
+
+        .popover {
+            z-index: 0;
+        }
+    </style>
 
 </div>

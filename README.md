@@ -31,8 +31,13 @@ Images
 Todo
 ------
 
-- Load balancing work with redis.
+- Load balancing work with redis. (Cooking with deepstream and nuxts)
 - Load pgn file.
+
+## Install nodejs and mongodb
+
+        apt-get install nodejs-legacy npm
+        apt-get install mongodb
 
 ## Run App
 
@@ -45,20 +50,35 @@ Todo
 # install dependencies
 npm install
 
+# After doing npm install copy from /copy_in_node_modules in /node_modules
+
+cp -r -- copy_in_node_modules/ node_modules/
+
 # serve with hot reload at localhost:8080
 npm run dev
 
+# run server in new tab
+
+ node server
+
+# Change the Dev variable in main.js to true
+
+1. var Dev = true
+
+# Accepts ssl certificate in localhost:(process.env.PORT || 3311)
+
 # build for production with minification
+
+# Change the Dev variable in main.js to false
+
 npm run build
 
-# run unit tests
-npm run unit
+#Publish on server
 
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
+rm -rf server/public/static
+cp dist/static -r server/public/static
+rm server/views/client.html
+cp dist/index.html server/views/client.html
 
 
+## Enjoy it

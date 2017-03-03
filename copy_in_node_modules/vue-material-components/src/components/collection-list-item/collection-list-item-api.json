@@ -1,0 +1,29 @@
+{
+  "name": "md-collection",
+  "title": "Collection",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "active",
+      "type": "Boolean",
+      "required": false,
+      "description": "Active class flag",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Content of collection item"
+    },
+    {
+      "name": "secondary-content",
+      "description": "Secondary content of collection item"
+    }
+  ],
+  "events": []
+}

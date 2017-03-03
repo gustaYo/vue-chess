@@ -1,0 +1,12 @@
+<div class="slider">
+    <ul class="slides">
+        <slot></slot>
+    </ul>
+    <ul class="indicators">
+        <li v-for="index in itemsCount"
+            @click="setActive(index)"
+            @mouseover="activeItem == index && clearInterval(index)"
+            @mouseout="setupInterval(index)"
+            :class="{active: activeItem == index}" class="indicator-item"></li>
+    </ul>
+</div>

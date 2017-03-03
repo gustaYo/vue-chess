@@ -1,0 +1,29 @@
+{
+  "name": "md-collapsible-item",
+  "title": "Collapsible item",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "name",
+      "type": "String",
+      "required": false,
+      "description": "Param is used as id",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "expanded",
+      "type": "Boolean",
+      "required": false,
+      "description": "Makes item opened, param is read only once after compilation",
+      "default": false,
+      "twoWay": false
+    }
+  ],
+  "slots": [],
+  "events": [],
+  "uses": {}
+}

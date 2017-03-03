@@ -1,0 +1,40 @@
+.slider {
+  height: 440px;
+}
+
+.fadeIn, .fadeOut, .caption {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.slider .slides li.active .caption {
+  opacity: 1;
+}
+
+.slider .slides li.active .caption.center-align {
+  -webkit-animation-name: slideInDown;
+  animation-name: slideInDown;
+}
+.slider .slides li.active .caption.left-align {
+  -webkit-animation-name: slideInLeft;
+  animation-name: slideInLeft;
+}
+.slider .slides li.active .caption.right-align {
+  -webkit-animation-name: slideInRight;
+  animation-name: slideInRight;
+}
+
+.slider .slides li .caption.center-align {
+  -webkit-animation-name: slideOutUp;
+  animation-name: slideOutUp;
+}
+.slider .slides li .caption.left-align {
+  -webkit-animation-name: slideOutLeft;
+  animation-name: slideOutLeft;
+}
+.slider .slides li .caption.right-align {
+  -webkit-animation-name: slideOutRight;
+  animation-name: slideOutRight;
+}

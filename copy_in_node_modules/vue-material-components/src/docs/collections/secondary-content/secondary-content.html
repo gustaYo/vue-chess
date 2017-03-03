@@ -1,0 +1,7 @@
+<md-collection>
+    <h4 slot="header">First Names</h4>
+    <md-collection-item v-for="item in items" :href="item">
+        {{$key}}
+        <md-icon slot="secondary-content">send</md-icon>
+    </md-collection-item>
+ </md-collection>

@@ -1,0 +1,36 @@
+{
+  "name": "md-circular-preloader",
+  "title": "Circular preloader",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "size",
+      "type": "String",
+      "description": "Value small, medium or large for size setting",
+      "required": false,
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "color",
+      "type": "String",
+      "description": "Value red, blue or green for color setting",
+      "required": false,
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "flashing",
+      "type": "Boolean",
+      "description": "True for flashing mode",
+      "required": false,
+      "default": false,
+      "twoWay": false
+    }
+  ],
+  "slots": [],
+  "events": []
+}

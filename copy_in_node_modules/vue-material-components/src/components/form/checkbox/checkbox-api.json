@@ -1,0 +1,45 @@
+{
+  "name": "md-checkbox",
+  "title": "Checkbox",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "value",
+      "type": "String",
+      "required": false,
+      "description": "Bind value",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "disabled",
+      "type": "Boolean",
+      "required": false,
+      "description": "Field is disabled if true",
+      "default": null,
+      "twoWay": false
+    },
+    {
+      "name": "name",
+      "type": "String",
+      "required": false,
+      "description": "Name of check box (name attribute)",
+      "default": true,
+      "twoWay": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Checkbox label"
+    },
+    {
+      "name": "icon-name",
+      "description": "Checkbox icon name"
+    }
+  ],
+  "events": []
+}

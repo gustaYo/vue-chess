@@ -1,0 +1,47 @@
+{
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "tags": [
+    "Mixin"
+  ],
+  "properties": [
+    {
+      "name": "event",
+      "type": "Event",
+      "required": true,
+      "description": "Event passed to @mouseover",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "message",
+      "type": "String",
+      "required": true,
+      "description": "String of tooltip",
+      "twoWay": false,
+      "default": null
+    },
+    {
+      "name": "position",
+      "type": "String",
+      "required": false,
+      "description": "Top, bottom, left or right value",
+      "twoWay": false,
+      "default": "bottom"
+    },
+    {
+      "name": "delay",
+      "type": "String",
+      "required": false,
+      "description": "Delay of tooltip popup in ms",
+      "twoWay": false,
+      "default": 50
+    }
+  ],
+  "slots": [],
+  "events": []
+}

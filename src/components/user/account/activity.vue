@@ -1,197 +1,212 @@
 <template>
-	<div>
-		<div class="progress" v-show="$loadingRouteData">
-			<div :class="{determinate: value != null, indeterminate: value == null}" :style="computedStyle"></div>
-		</div>
-		<div class="row" v-if="!$loadingRouteData">
-      <div class="col s6 m6">
-        <md-card class="blue-grey darken-1" content-class="white-text">
+    <div>
+        <div class="progress" v-show="$loadingRouteData">
+            <div :class="{determinate: value != null, indeterminate: value == null}" :style="computedStyle"></div>
+        </div>
+        <div class="row" v-if="!$loadingRouteData">
+            <div class="col s6 m6">
+                <md-card class="blue-grey darken-1" content-class="white-text">
         <span slot="title">
          {{ $t("account.activity.vsPC") }}
        </span>
-       <table>
-         <thead>
-          <tr>
-            <th>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>
 
-            </th>
-            <th>
-              {{ $t("account.activity.wins") }}
-            </th>
-            <th>
-            {{ $t("account.activity.draws") }}
-            </th>
-            <th>
-            {{ $t("account.activity.losses") }}
-            </th>
-            <th>
-              Total
-            </th>
-          </tr>
+                            </th>
+                            <th>
+                                {{ $t("account.activity.wins") }}
+                            </th>
+                            <th>
+                                {{ $t("account.activity.draws") }}
+                            </th>
+                            <th>
+                                {{ $t("account.activity.losses") }}
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                        </tr>
 
-        </thead>
-        <tr>
-         <td>
-          Blancas
-        </td>
-        <td>
-          {{statsUser.whitevsPC || 0}}
-        </td>
-        <td>
-          {{statsUser.totalWhitevsPC - ((statsUser.whitevsPC || 0)+(statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0)))}}
-        </td>
-        <td>
-          {{statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0)}}
-        </td>
-        <td>
-          {{statsUser.totalWhitevsPC}}
-        </td>
-      </tr>
-      <tr>
-       <td>
-        Negras
-      </td>
-      <td>
-       {{statsUser.blackvsPC || 0}}
-     </td>
-     <td>
-      {{(statsUser.totalvsPC - statsUser.totalWhitevsPC)-((statsUser.blackvsPC || 0)+(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0))}}
-    </td>
-    <td>
-      {{(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0)}}
-    </td>
-    <td>
-      {{statsUser.totalvsPC - statsUser.totalWhitevsPC}}
-    </td>
-  </tr>
-  <tfoot style="background-color: #5f6161;border-top-style: groove;">
-   <th>
-    Totales
-  </th>
-  <th>
-    {{(statsUser.blackvsPC || 0) + (statsUser.whitevsPC || 0)}}
-  </th>
-  <th>
-   {{(statsUser.totalWhitevsPC - ((statsUser.whitevsPC || 0)+(statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0))))+(statsUser.totalvsPC - statsUser.totalWhitevsPC)-((statsUser.blackvsPC || 0)+(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0))}}
- </th>
- <th>
-  {{(statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0))+(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0)}}
-</th>
-<th>
-  {{statsUser.totalvsPC}}
-</th>
-</tfoot>
-</table>
+                        </thead>
+                        <tr>
+                            <td>
+                                Blancas
+                            </td>
+                            <td>
+                                {{statsUser.whitevsPC || 0}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsPC - ((statsUser.whitevsPC || 0)+(statsUser.totalWhitevsPC -
+                                (statsUser.whitevsPC || 0)))}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0)}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsPC}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Negras
+                            </td>
+                            <td>
+                                {{statsUser.blackvsPC || 0}}
+                            </td>
+                            <td>
+                                {{(statsUser.totalvsPC - statsUser.totalWhitevsPC)-((statsUser.blackvsPC ||
+                                0)+(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0))}}
+                            </td>
+                            <td>
+                                {{(statsUser.totalvsPC - statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0)}}
+                            </td>
+                            <td>
+                                {{statsUser.totalvsPC - statsUser.totalWhitevsPC}}
+                            </td>
+                        </tr>
+                        <tfoot style="background-color: #5f6161;border-top-style: groove;">
+                        <th>
+                            Totales
+                        </th>
+                        <th>
+                            {{(statsUser.blackvsPC || 0) + (statsUser.whitevsPC || 0)}}
+                        </th>
+                        <th>
+                            {{(statsUser.totalWhitevsPC - ((statsUser.whitevsPC || 0)+(statsUser.totalWhitevsPC -
+                            (statsUser.whitevsPC || 0))))+(statsUser.totalvsPC -
+                            statsUser.totalWhitevsPC)-((statsUser.blackvsPC || 0)+(statsUser.totalvsPC -
+                            statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0))}}
+                        </th>
+                        <th>
+                            {{(statsUser.totalWhitevsPC - (statsUser.whitevsPC || 0))+(statsUser.totalvsPC -
+                            statsUser.totalWhitevsPC)- (statsUser.blackvsPC || 0)}}
+                        </th>
+                        <th>
+                            {{statsUser.totalvsPC}}
+                        </th>
+                        </tfoot>
+                    </table>
 
-</md-card>
-</div>
-<div class="col s6 m6">
- <md-card class="blue-grey darken-1" content-class="white-text">
+                </md-card>
+            </div>
+            <div class="col s6 m6">
+                <md-card class="blue-grey darken-1" content-class="white-text">
  <span slot="title">
    {{ $t("account.activity.vsOtherUser") }}
  </span>
- <table>
-   <thead>
-          <tr>
-            <th>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>
 
-            </th>
-            <th>
-              {{ $t("account.activity.wins") }}
-            </th>
-            <th>
-            {{ $t("account.activity.draws") }}
-            </th>
-            <th>
-            {{ $t("account.activity.losses") }}
-            </th>
-            <th>
-              Total
-            </th>
-          </tr>
+                            </th>
+                            <th>
+                                {{ $t("account.activity.wins") }}
+                            </th>
+                            <th>
+                                {{ $t("account.activity.draws") }}
+                            </th>
+                            <th>
+                                {{ $t("account.activity.losses") }}
+                            </th>
+                            <th>
+                                Total
+                            </th>
+                        </tr>
 
-  </thead>
-  <tr>
-   <td>
-    Blancas
-  </td>
-  <td>
-    {{statsUser.whitevsOthersUsers || 0}}
-  </td>
-  <td>
-    {{statsUser.totalWhitevsOthersUsers - ((statsUser.whitevsOthersUsers || 0) + (statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0)))}}
-  </td>
-  <td>
-    {{statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0)}}
-  </td>
-  <td>
-    {{statsUser.totalWhitevsOthersUsers}}
-  </td>
-</tr>
-<tr>
- <td>
-  Negras
-</td>
-<td>
- {{statsUser.blackvsOthersUsers || 0}}
-</td>
-<td>
-  {{(statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-(((statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.blackvsOthersUsers || 0))}}
-</td>
-<td>
-  {{(statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers}}
-</td>
-<td>
-  {{statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers}}
-</td>
-</tr>
-<tfoot style="background-color: #5f6161;border-top-style: groove;">
- <th>
-  Totales
-</th>
-<th>
-  {{(statsUser.blackvsOthersUsers || 0) + (statsUser.whitevsOthersUsers || 0)}}
-</th>
-<th>
-  {{((statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-(((statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.blackvsOthersUsers || 0)))+ (statsUser.totalWhitevsOthersUsers - ((statsUser.whitevsOthersUsers || 0) + (statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0))))}}
-</th>
-<th>
-  {{((statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0))}}
-</th>
-<th>
-  {{statsUser.totalvsOthersUsers}}
-</th>
-</tfoot>
-</table>
+                        </thead>
+                        <tr>
+                            <td>
+                                Blancas
+                            </td>
+                            <td>
+                                {{statsUser.whitevsOthersUsers || 0}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsOthersUsers - ((statsUser.whitevsOthersUsers || 0) +
+                                (statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0)))}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0)}}
+                            </td>
+                            <td>
+                                {{statsUser.totalWhitevsOthersUsers}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Negras
+                            </td>
+                            <td>
+                                {{statsUser.blackvsOthersUsers || 0}}
+                            </td>
+                            <td>
+                                {{(statsUser.totalvsOthersUsers -
+                                statsUser.totalWhitevsOthersUsers)-(((statsUser.totalvsOthersUsers -
+                                statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.blackvsOthersUsers
+                                || 0))}}
+                            </td>
+                            <td>
+                                {{(statsUser.totalvsOthersUsers -
+                                statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers}}
+                            </td>
+                            <td>
+                                {{statsUser.totalvsOthersUsers - statsUser.totalWhitevsOthersUsers}}
+                            </td>
+                        </tr>
+                        <tfoot style="background-color: #5f6161;border-top-style: groove;">
+                        <th>
+                            Totales
+                        </th>
+                        <th>
+                            {{(statsUser.blackvsOthersUsers || 0) + (statsUser.whitevsOthersUsers || 0)}}
+                        </th>
+                        <th>
+                            {{((statsUser.totalvsOthersUsers -
+                            statsUser.totalWhitevsOthersUsers)-(((statsUser.totalvsOthersUsers -
+                            statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.blackvsOthersUsers
+                            || 0)))+ (statsUser.totalWhitevsOthersUsers - ((statsUser.whitevsOthersUsers || 0) +
+                            (statsUser.totalWhitevsOthersUsers - (statsUser.whitevsOthersUsers || 0))))}}
+                        </th>
+                        <th>
+                            {{((statsUser.totalvsOthersUsers -
+                            statsUser.totalWhitevsOthersUsers)-statsUser.blackvsOthersUsers)+(statsUser.totalWhitevsOthersUsers
+                            - (statsUser.whitevsOthersUsers || 0))}}
+                        </th>
+                        <th>
+                            {{statsUser.totalvsOthersUsers}}
+                        </th>
+                        </tfoot>
+                    </table>
 
-</md-card>
-</div>
+                </md-card>
+            </div>
+            <div class="row demo">
+                <div class="col s12">
+                    <md-radio-group group="size">
+                        <md-radio :value.sync="activeSet" :radio-value="$key" class="with-gap" v-for="stat in statSets">
+                            {{$key}}
+                        </md-radio>
+                    </md-radio-group>
+                </div>
+            </div>
+            <div class="col s12 m12 card-panel">
 
+                <vue-chart
+                        keep-alive
+                        :chart-type="chartType"
+                        :columns="columns"
+                        :rows="rows"
+                        :options="options"
+                >
+                </vue-chart>
+            </div>
 
-<div class="row demo">
-  <div class="col s12">
-    <md-radio-group group="size">
-    <md-radio :value.sync="activeSet" :radio-value="$key" class="with-gap" v-for="stat in statSets" >
-    {{$key}}
-  </md-radio>
-</md-radio-group>
-</div>
-</div>
-<div class="col s12 m12 card-panel"> 
+        </div>
 
-  <vue-chart
-  keep-alive
-  :chart-type="chartType"
-  :columns="columns"
-  :rows="rows"
-  :options="options"
-  >
-</vue-chart>
-</div>
-
-</div>
-
-</div>
+    </div>
 </template>
 
 
@@ -219,6 +234,7 @@ export default {
   },
   data () {
     return {
+      statsUser: {},
       user: UserService.user,
       datachart: [],
       chartType: 'LineChart',

@@ -1,0 +1,16 @@
+<div v-el:fab class="md-fab fixed-action-btn" :class="{horizontal: horizontal}">
+    <slot name="button">
+        <md-button floating large class="red">
+            <slot name="icon">
+                <md-icon class="large">
+                    <slot name="icon-name">
+                        menu
+                    </slot>
+                </md-icon>
+            </slot>
+        </md-button>
+    </slot>
+    <ul :style="{visibility: active ? 'visible' : 'hidden'}">
+        <slot></slot>
+    </ul>
+</div>

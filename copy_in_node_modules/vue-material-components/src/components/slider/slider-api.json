@@ -1,0 +1,25 @@
+{
+  "name": "md-slider",
+  "title": "Slider",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "interval",
+      "type": "Number",
+      "required": false,
+      "description": "Interval between slides",
+      "twoWay": false,
+      "default": 4000
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Slides"
+    }
+  ],
+  "events": []
+}

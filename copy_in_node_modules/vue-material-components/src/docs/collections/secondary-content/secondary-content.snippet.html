@@ -1,0 +1,15 @@
+/*
+{
+    'Alvin1': 'javascript:void(0)',
+    'Alvin2': 'javascript:void(0)',
+    'Alvin3': 'javascript:void(0)',
+    'Alvin4': 'javascript:void(0)'
+}
+*/
+<md-collection>
+    <h4 slot="header">First Names</h4>
+    <md-collection-item v-for="item in items" :href="item">
+        {{$key}}
+        <md-icon slot="secondary-content">send</md-icon>
+    </md-collection-item>
+</md-collection>

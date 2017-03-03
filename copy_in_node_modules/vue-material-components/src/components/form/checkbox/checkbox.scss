@@ -1,0 +1,81 @@
+.md-checkbox.filled-in {
+  [type="checkbox"] + label:after {
+    border-radius: 2px;
+  }
+
+  [type="checkbox"] + label:before,
+  [type="checkbox"] + label:after {
+    content: '';
+    left: 0;
+    position: absolute;
+    /* .1s delay is for check animation */
+    transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
+    z-index: 1;
+  }
+
+  [type="checkbox"]:not(:checked) + label:before {
+    width: 0;
+    height: 0;
+    border: 3px solid transparent;
+    left: 6px;
+    top: 10px;
+    -webkit-transform: rotateZ(37deg);
+    transform: rotateZ(37deg);
+    -webkit-transform-origin: 20% 40%;
+    transform-origin: 100% 100%;
+  }
+
+  [type="checkbox"]:not(:checked) + label:after {
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border: 2px solid #5a5a5a;
+    top: 0px;
+    z-index: 0;
+  }
+
+  [type="checkbox"]:checked + label:before {
+    top: 0;
+    left: 1px;
+    width: 8px;
+    height: 13px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    -webkit-transform: rotateZ(37deg);
+    transform: rotateZ(37deg);
+    -webkit-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+  }
+
+  [type="checkbox"]:checked + label:after {
+    top: 0px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #26a69a;
+    background-color: #26a69a;
+    z-index: 0;
+  }
+
+  [type="checkbox"]:disabled:not(:checked) + label:before {
+    background-color: transparent;
+    border: 2px solid transparent;
+  }
+
+  [type="checkbox"]:disabled:not(:checked) + label:after {
+    border-color: transparent;
+    background-color: #BDBDBD;
+  }
+
+  [type="checkbox"]:disabled:checked + label:before {
+    background-color: transparent;
+  }
+
+  [type="checkbox"]:disabled:checked + label:after {
+    background-color: #BDBDBD;
+    border-color: #BDBDBD;
+  }
+}
+
+// todo sass properties

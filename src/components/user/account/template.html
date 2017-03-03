@@ -1,47 +1,47 @@
- <div class="row">
- 	<div class="col s12" v-cloak>
- 		<div class="col s12 m6 l3">
- 			<div class="col s12 m12 l12">
- 				<md-card>
+<div class="row">
+    <div class="col s12" v-cloak>
+        <div class="col s12 m6 l3">
+            <div class="col s12 m12 l12">
+                <md-card>
  				<span slot="title">
  					{{user.name || user.username}}
  				</span>
- 				<div slot="image" >
- 					<img v-if="$route.name!=='edituser'" style="width: 100%;" v-bind:src="imageUrl(user.image)">
+                    <div slot="image">
+                        <img v-if="$route.name!=='edituser'" style="width: 100%;" v-bind:src="imageUrl(user.image)">
 
- 					<upload-files
- 					v-if="$route.name==='edituser'"
- 					:value.sync="filesUpload"
- 					name="files"
- 					:action="dirActionUpload"
- 					maxsize="10"
- 					pathpermit="|jpeg|png|gif"
- 					>
- 					<md-icon right>edit</md-icon>
- 					<img style="width: 100%;" v-bind:src="imageUrl(user.image)">
- 				</upload-files>
- 			</div>
- 		</md-card>
- 	</div>
- 	<div class="col s12 m12 l12">
- 		<md-collection>
- 		<md-collection-item v-link="{name: 'userdata',activeClass: 'active'}">
- 		{{ $t("account.personalData.title") }}
- 		<md-icon slot="secondary-content">send</md-icon>
- 	</md-collection-item>
- 	<md-collection-item v-link="{name: 'activity',activeClass: 'active'}">
- 	{{ $t("account.activity.title") }}
- 	<md-icon slot="secondary-content">send</md-icon>
- </md-collection-item>
- <md-collection-item>
- Configuraciones
- <md-icon slot="secondary-content">send</md-icon>
-</md-collection-item>
-</md-collection>
-</div>
-</div>
-<div class="col s12 m6 l9">	
-	<router-view class="animated" transition="entern"></router-view>
-</div> 		
-</div>
+                        <upload-files
+                                v-if="$route.name==='edituser'"
+                                :value.sync="filesUpload"
+                                name="files"
+                                :action="dirActionUpload"
+                                maxsize="10"
+                                pathpermit="|jpeg|png|gif"
+                        >
+                            <md-icon right>edit</md-icon>
+                            <img style="width: 100%;" v-bind:src="imageUrl(user.image)">
+                        </upload-files>
+                    </div>
+                </md-card>
+            </div>
+            <div class="col s12 m12 l12">
+                <md-collection>
+                    <md-collection-item v-link="{name: 'userdata',activeClass: 'active'}">
+                        {{ $t("account.personalData.title") }}
+                        <md-icon slot="secondary-content">send</md-icon>
+                    </md-collection-item>
+                    <md-collection-item v-link="{name: 'activity',activeClass: 'active'}">
+                        {{ $t("account.activity.title") }}
+                        <md-icon slot="secondary-content">send</md-icon>
+                    </md-collection-item>
+                    <md-collection-item>
+                        Configuraciones
+                        <md-icon slot="secondary-content">send</md-icon>
+                    </md-collection-item>
+                </md-collection>
+            </div>
+        </div>
+        <div class="col s12 m6 l9">
+            <router-view class="animated" transition="entern"></router-view>
+        </div>
+    </div>
 </div>

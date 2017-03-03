@@ -1,0 +1,41 @@
+{
+  "name": "md-radio",
+  "title": "Radio",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "value",
+      "type": "String",
+      "required": true,
+      "description": "Radio biding value",
+      "twoWay": null,
+      "default": null
+    },
+    {
+      "name": "disabled",
+      "type": "Boolean",
+      "required": false,
+      "description": "Field is disabled if true",
+      "default": null,
+      "twoWay": false
+    },
+    {
+      "name": "radio-value",
+      "type": "String",
+      "required": false,
+      "description": "Radio field value (value attribute)",
+      "default": null,
+      "twoWay": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Radio label"
+    }
+  ],
+  "events": []
+}

@@ -1,4 +1,4 @@
-var Dev = false
+var Dev = true
 import Vue from 'vue'
 import App from './App'
 import Resource from 'vue-resource'
@@ -104,14 +104,12 @@ router.map({
           '/activity': {
             name: 'activity',
             component (resolve) {
-            // cargar a demanda
               require(['./components/user/account/activity'], resolve)
             }
           },
           '/edit': {
             name: 'edituser',
             component (resolve) {
-            // cargar a demanda
               require(['./components/user/register/'], resolve)
             }
           }

@@ -1,0 +1,29 @@
+{
+  "name": "md-tabs",
+  "title": "Tabs",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "alert",
+      "type": "String",
+      "required": false,
+      "description": "String of badge represents new event, string is used as label",
+      "twoWay": false,
+      "default": null
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Tabs"
+    },
+    {
+      "name": "contents",
+      "description": "Contents rendered in tabs wrapper"
+    }
+  ],
+  "events": []
+}

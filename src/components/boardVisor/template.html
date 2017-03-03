@@ -1,51 +1,52 @@
-<div class="col s12" >
-	<div class="col s12 m6 l3">
-		<div> 
-			<label>{{ $t("visor.found") }}  :{{totalRecords}}</label>
-			<div style="text-align: center;">
-				<md-pagination :current-page.sync="skip" :page-size="20" :total-records.sync="totalRecords">			
-			</md-pagination>
-		</div>
-		<md-input
-		class="col s6 m6 l6"
-		name="white" 
-		:value.sync="filters.u1"
-		@keyup="Filter() | debounce 300"
-		>
-		{{ $t("visor.whiteName") }}   
-	</md-input>
+<div class="col s12">
+    <div class="col s12 m6 l3">
+        <div>
+            <label>{{ $t("visor.found") }} :{{totalRecords}}</label>
+            <div style="text-align: center;">
+                <md-pagination :current-page.sync="skip" :page-size="20" :total-records.sync="totalRecords">
+                </md-pagination>
+            </div>
+            <md-input
+                    class="col s6 m6 l6"
+                    name="white"
+                    :value.sync="filters.u1"
+                    @keyup="Filter() | debounce 300"
+            >
+                {{ $t("visor.whiteName") }}
+            </md-input>
 
-	<md-input
-	class="col s6 m6 l6" 
-	name="black" 
-	:value.sync="filters.u2"
-	@keyup="Filter() | debounce 300"
-	>
-	{{ $t("visor.blackName") }}   
-</md-input>			
-<div  style="height: 65vh;overflow: auto" class="col s12 m12 l12">
-	<table class="table">
-		<tbody>
-			<tr v-for="board in foundList" @click="selectBoard(board)" v-bind:class="[boardView._id === board._id ? 'item-select' : '']">
-				<td>{{ board.u1}} vs {{ board.u2}}</td>
-				<td>G. {{ board.wins}} M.{{ board.motiv }}</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-</div>
-</div>
-<div class="col s12 m6 l9">
-	<board-visor :board="boardView"></board-visor>
-</div>
+            <md-input
+                    class="col s6 m6 l6"
+                    name="black"
+                    :value.sync="filters.u2"
+                    @keyup="Filter() | debounce 300"
+            >
+                {{ $t("visor.blackName") }}
+            </md-input>
+            <div style="height: 65vh;overflow: auto" class="col s12 m12 l12">
+                <table class="table">
+                    <tbody>
+                    <tr v-for="board in foundList" @click="selectBoard(board)"
+                        v-bind:class="[boardView._id === board._id ? 'item-select' : '']">
+                        <td>{{ board.u1}} vs {{ board.u2}}</td>
+                        <td>G. {{ board.wins}} M.{{ board.motiv }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6 l9">
+        <board-visor :board="boardView"></board-visor>
+    </div>
 </div>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-	.item-select {
-		background-color: #90a4ae;;
-	}
+    .item-select {
+        background-color: #90a4ae;;
+    }
 
 </style>
 

@@ -1,0 +1,68 @@
+{
+  "name": "md-button",
+  "title": "Button",
+  "description": "",
+  "browserSupport": {
+    "browsers": []
+  },
+  "properties": [
+    {
+      "name": "type",
+      "type": "String",
+      "description": "Button type css class",
+      "twoWay": false,
+      "required": false,
+      "default": null
+    },
+    {
+      "name": "icon",
+      "type": "String",
+      "description": "Material icon name",
+      "twoWay": false,
+      "required": false,
+      "default": null
+    },
+    {
+      "name": "icon-align-right",
+      "type": "Boolean",
+      "description": "It switches icon to right side",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "large",
+      "type": "Boolean",
+      "description": "Adds large button class if true",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "disabled",
+      "type": "Boolean",
+      "description": "Disables button (only css)",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "floating",
+      "type": "Boolean",
+      "description": "Adds floating css class if true",
+      "twoWay": false,
+      "required": false,
+      "default": false
+    }
+  ],
+  "slots": [
+    {
+      "name": "",
+      "description": "Button content (label)"
+    }
+  ],
+  "events": [],
+  "uses": {
+    "Wave effect": "#!/directives"
+  }
+}
