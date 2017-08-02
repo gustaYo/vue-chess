@@ -21,7 +21,7 @@
             <md-nav-item v-link="{name: 'user',activeClass: 'active', params: {username: user.user.username}}"
                          v-if="user.user">{{ $t("user.title") }}
             </md-nav-item>
-            <md-nav-item v-link="{name: 'loguin',activeClass: 'active'}" v-if="!user.user">{{ $t("user.login") }}
+            <md-nav-item v-link="{name: 'login',activeClass: 'active'}" v-if="!user.user">{{ $t("user.login") }}
             </md-nav-item>
             <md-nav-item @click="logout()" v-if="user.user">{{ $t("user.logout") }}</md-nav-item>
 
@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     getLenguajeName () {
-      for (var i in this.lenguajes) {
+      for (let i in this.lenguajes) {
         if (this.lenguajes[i].value === this.lenguaje) {
           this.lenguajeName = this.lenguajes[i].label
         }
@@ -128,7 +128,7 @@ export default {
         })
       }
     },
-    userLoguinSocket () {
+    userLoginSocket () {
       if (this.user.user_acces()) {
         const data = {
           c: 'chat',
@@ -146,8 +146,8 @@ export default {
     }
   },
   events: {
-    userLoguin (data) {
-      this.userLoguinSocket()
+    userLogin (data) {
+      this.userLoginSocket()
     }
   },
   sockets: {
@@ -157,7 +157,7 @@ export default {
   },
   created () {
     this.testUser(function () {
-      this.userLoguinSocket()
+      this.userLoginSocket()
     }.bind(this))
     this.getLenguajeName()
   },
