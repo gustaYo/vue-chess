@@ -17,10 +17,9 @@ export default {
       return Promise.all([
         PuzzleService.count(this)
       ]).then(function (data) {
-        const somedata = data[0].data
-        console.log(somedata)
+        const theD = JSON.parse(data)
         return {
-          counts: somedata
+          counts: theD
         }
       }, function (response) {
         window.alert('no se pudo contar')
@@ -103,7 +102,8 @@ export default {
         type: puzzle.type
       }
       PuzzleService.get(this, parms).then(function (response) {
-        this.puzzles = response.data
+        const theD = JSON.parse(response)
+        this.puzzles = theD
         setTimeout(function () {
           if (this.puzzles.length > 0) {
             this.selectItm(this.puzzles[0])

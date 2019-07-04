@@ -53,8 +53,9 @@ export default {
         skip: this.skip
       }
       Board.filter(this, filters).then(function (response) {
-        this.foundList = response.data.documents
-        this.totalRecords = response.data.total
+        const data = JSON.parse(response)
+        this.foundList = data.documents
+        this.totalRecords = data.total
         this.updateRouter()
         if (this.boardSelect !== this.boardView._id) {
           for (var i in this.foundList) {

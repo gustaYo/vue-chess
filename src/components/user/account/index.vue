@@ -14,7 +14,8 @@ export default {
       return Promise.all([
         UserService.get(this, this.$route.params.username)
       ]).then(function (data) {
-        const somedata = data[0].data
+        const dd = JSON.parse(data)
+        const somedata = dd
         this.setUser(somedata)
         return {
           user: somedata

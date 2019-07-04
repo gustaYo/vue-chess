@@ -44,7 +44,7 @@
 <script>
 import Chess from 'chess.js'
 import Chessground from 'chessground'
-import Garbochess from 'garbochess'
+import Garbochess from '../../services/garbochess.js'
 import BoardHistory from '../game/boardHistory'
 var timesColor = {
   white: 1,

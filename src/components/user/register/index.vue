@@ -73,6 +73,7 @@ export default {
       }
       this.error = 'procesando'
       UserService.signin(this, this.user).then(function (response) {
+        console.log(response)
         this.error = 'redireccionando'
         if (this.user._id) {
           window.location.reload()

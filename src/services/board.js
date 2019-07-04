@@ -1,10 +1,26 @@
 import Storage from './lstorage'
 export default {
   filter (ctx, data) {
-    return ctx.$http.post(Storage.get('serverDir') + '/board/filter', data)
+    return ctx.$http.post(Storage.get('serverDir') + '/board/filter', data).then(r => {
+      if (r.status === 200) {
+        return r.text()
+      } else {
+        return r.text().then(d => {
+          throw d
+        })
+      }
+    })
   },
   stats (ctx, data) {
-    return ctx.$http.get(Storage.get('serverDir') + '/board/stats' + this.urlGetParms(data))
+    return ctx.$http.get(Storage.get('serverDir') + '/board/stats' + this.urlGetParms(data)).then(r => {
+      if (r.status === 200) {
+        return r.text()
+      } else {
+        return r.text().then(d => {
+          throw d
+        })
+      }
+    })
   },
   urlGetParms (data) {
     var parms = '?'

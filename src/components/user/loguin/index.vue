@@ -56,14 +56,24 @@ export default {
   methods: {
     userloguin () {
       this.error = 'consultando'
-      UserService.authenticate(this, this.user).then(function (response) {
-        Storage.set('token', response.data.token)
-        UserService.setUser(response.data.data)
-        this.$dispatch('userLoguin', 'user loguin')
-        window.location.reload()
-      }, function (response) {
-        this.error = response.data
+      UserService.authenticate(this, this.user).then(r => {
+        if (r.status === 200) {
+          return r.text()
+        } else {
+          return r.text().then(d => {
+            throw d
+          })
+        }
       })
+			.then(json => {
+  const data = JSON.parse(json)
+  Storage.set('token', data.token)
+  UserService.setUser(data.data)
+  this.$dispatch('userLoguin', 'user loguin')
+  window.location.reload()
+}).catch(err => {
+  this.error = err.text()
+})
     }
   }
 }

@@ -44,7 +44,7 @@
 <script>
 import Chessground from 'chessground'
 import Chess from 'chess.js'
-import Garbochess from 'garbochess'
+import Garbochess from '../../services/garbochess.js'
 import PuzzleService from '../../services/puzzle'
 export default {
   name: 'puzzleChess',

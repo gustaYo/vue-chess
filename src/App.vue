@@ -120,7 +120,8 @@ export default {
     testUser (next) {
       if (Store.get('token')) {
         UserService.testUser(this, {}).then(function (response) {
-          UserService.setUser(response.data)
+          const data = JSON.parse(response)
+          UserService.setUser(data)
           next()
         }, function (response) {
           // next()

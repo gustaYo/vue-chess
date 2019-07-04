@@ -50,16 +50,21 @@ Todo
 # install dependencies
 npm install
 
-# After doing npm install copy from /copy_in_node_modules in /node_modules
+# use these node_modules that I share to you to work correctly https://vue-chess-dependencies-enczdtjzdy.now.sh/
 
-cp -r -- copy_in_node_modules/ node_modules/
+wget https://vue-chess-dependencies-enczdtjzdy.now.sh/
+7z x node_modules.7z
+
 
 # serve with hot reload at localhost:8080
-npm run dev
+yarn dev
 
 # run server in new tab
 
- node server
+cd /server
+yarn install
+
+node server
 
 # Change the Dev variable in main.js to true
 

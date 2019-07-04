@@ -11,7 +11,15 @@ export default {
     }
   },
   deleteImage (ctx, data) {
-    return ctx.$http.put(Storage.get('serverDir') + '/chat/upload', data)
+    return ctx.$http.put(Storage.get('serverDir') + '/chat/upload', data).then(r => {
+      if (r.status === 200) {
+        return r.text()
+      } else {
+        return r.text().then(d => {
+          throw d
+        })
+      }
+    })
   },
   user: null,
   userShow: {},
@@ -25,10 +33,26 @@ export default {
     this.user = Storage.set('user', newUser)
   },
   get (ctx, data) {
-    return ctx.$http.get(Storage.get('serverDir') + '/user/' + data)
+    return ctx.$http.get(Storage.get('serverDir') + '/user/' + data).then(r => {
+      if (r.status === 200) {
+        return r.text()
+      } else {
+        return r.text().then(d => {
+          throw d
+        })
+      }
+    })
   },
   testUser (ctx, data) {
-    return ctx.$http.post(Storage.get('serverDir') + '/user/test', data)
+    return ctx.$http.post(Storage.get('serverDir') + '/user/test', data).then(r => {
+      if (r.status === 200) {
+        return r.text()
+      } else {
+        return r.text().then(d => {
+          throw d
+        })
+      }
+    })
   },
   logout () {
     Storage.clearLocal(true)
