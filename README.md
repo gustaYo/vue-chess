@@ -36,13 +36,14 @@ Todo
 
 ## Install nodejs and mongodb
 
-        https://github.com/gustaYo/vue-chess.git
+        
 
         apt-get install nodejs-legacy npm
         apt-get install mongodb
 
 ## Run App
-
+    
+    git clone https://github.com/gustaYo/vue-chess.git
     cd /server
     yarn install
 		node server
