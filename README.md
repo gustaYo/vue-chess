@@ -50,6 +50,8 @@ Todo
 		node server
 		// Get the address shown on console
 
+    // user test admin password yoyo
+
 ## Build setup for developers
 
 ``` bash
