@@ -56,7 +56,6 @@ Todo
 
 ``` bash
 # install dependencies
-npm install
 
 # use these node_modules that I share to you to work correctly https://vue-chess-dependencies-enczdtjzdy.now.sh/
 
