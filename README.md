@@ -49,7 +49,7 @@ Todo
 		node server
 		// Get the address shown on console
 
-## Build Setup
+## Build setup for developers
 
 ``` bash
 # install dependencies
