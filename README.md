@@ -44,7 +44,8 @@ Todo
 ## Run App
     
     git clone https://github.com/gustaYo/vue-chess.git
-    cd /server
+
+    cd vue-chess/server
     yarn install
 		node server
 		// Get the address shown on console
