@@ -29,7 +29,7 @@
     "mongoose": "latest",
     "mongoose-unique-validator": "^1.0.2",
     "morgan": "latest",
-    "redis": "^2.6.2",
+    "redis": "^3.1.1",
     "request": "latest",
     "request-ip": "^1.2.2",
     "socket.io": "^1.4.6",
