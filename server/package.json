@@ -13,7 +13,7 @@
   "author": "Gustavo",
   "license": "ISC",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.6.4",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.0.0",
     "chess.js": "^0.10.0",
